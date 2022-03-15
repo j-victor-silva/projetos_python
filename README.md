@@ -1,2 +1,1 @@
-# projetos_python
-Projetos pessoais - João Victor
+# Gerador de Senhas
