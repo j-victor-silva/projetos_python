@@ -10,3 +10,5 @@ E por fim, o programa irá perguntar qual o tamanho da senha desejada com no mí
 menor que 8, por padrão o programa irá criar uma senha de 8 caracteres.
 
 Depois de todo o processo, será criado um arquivo de texto com as informações salvas.
+
+Na pasta dist está o executável do código.
