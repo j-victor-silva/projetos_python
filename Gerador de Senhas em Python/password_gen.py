@@ -9,6 +9,12 @@ import random as r
 # - Salvar em um documento de texto;
 #
 
+def pula_linha(mensagem):
+    print('\n' + '-' * 35)
+    print(mensagem)
+    print('-' * 35)
+
+
 # Função para gerar a senha
 def password(tam=8):
     senha = ''
@@ -31,9 +37,9 @@ def ler_escrever(arquivo, topico, user):
 # Loop para gerar quantas senhas o usuário precisar
 while True:
     with open("senhas.txt", "a+") as file:
-        topico = input('\nSite/Programa que a senha será gerada: ')
-        user = input('\nUsuário/Email que vai receber a nova senha: ')
-        inp_senha = input(
+        topico = input(('-' * 30) + '\nSite/Programa que a senha será gerada: ')
+        user = input(('-' * 30) + '\nUsuário/Email que vai receber a nova senha: ')
+        inp_senha = input(('-' * 30) + 
             '\nDigite o tamanho que terá sua senha, caso não digite nada ou digite um valor '
             'menor que 8 a senha terá um tamanho de 8 caracteres: ')
 
@@ -45,6 +51,9 @@ while True:
         else:
             file.write(f'\tSenha: {password(int(inp_senha))}\n\n')
 
+        pula_linha('A senha foi criada, acesse o bloco de notas para visualizar '
+              'o que foi feito.')
+        
         topico_continue = input(
             '\nVocê deseja criar uma nova senha? Digite Sim ou Nao.\n\n->')
         if topico_continue.lower() == 'sim':
