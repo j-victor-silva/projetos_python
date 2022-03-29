@@ -3,8 +3,16 @@ import pyperclip as pyper
 import time
 
 
+# Função para copiar o campo de conhecimento
+def copiar_conhecimento(dict, index):
+    pyper.copy(dict[index])
+    time.sleep(3)
+    py.press('enter')
+    py.hotkey('ctrl', 'v')
+    
+    
 # Função para copiar o objetivo(ID) e sua descrição
-def copiar_colar(dict, key, chave=''):
+def copiar_objetivo(dict, key, chave=''):
     for k in dict.keys():
         if not k == key:
             continue

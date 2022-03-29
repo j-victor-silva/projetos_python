@@ -4,6 +4,9 @@ para o Excel, já que eu fazia muitas coisas usando ele
 O programa vai basicamente copiar coisas que são muito usadas para as células do Excel
 """
 import funcoes as func
+import pyperclip as pyper
+import pyautogui as py
+import time
 
 
 # Objetivos
@@ -21,4 +24,47 @@ objetivos = {
     'EI03ET01CRU': 'Estabelecer relações de comparação entre objetos, observando suas propriedades',
 }
 
-func.copiar_colar(objetivos, 'EI03TS01CRU')
+conhecimento = {
+    1: 'O Eu, O Outro e O Nós', 
+    2: 'Escuta, fala, pensamento e imaginação',
+    3: 'Corpo, gestos e movimentos',
+    4: 'Traços, sons, cores e formas',
+    5: 'Espaços, tempos, quantidades, relações e tranformações',
+}
+
+
+def pula_linha():
+    print()
+    
+
+def decorar_linha(msg=False):
+    print('=' * 40)
+    if msg:
+        print(msg)
+    
+    print('=' * 40)
+
+
+while True:
+    print('\nDigite qual função você deseja executar:')
+    escolha = input(f'\t1- Colar conhecimento;\n\t2- Colar objetivos;\n\t'
+                    f'3- Colocar asteríscos;\n\t4- Colocar data e aula.\n\t->')
+    
+    pula_linha()
+    
+    if escolha == '1':
+        conhecimento_formatado = ''
+        for x, y in conhecimento.items():
+            conhecimento_formatado += f'{x}:{y}\n'
+        
+        escolha = input((f'Aqui está a lista de conhecimentos:\n\n{conhecimento_formatado}\n->'))
+        time.sleep(3)
+        func.copiar_conhecimento(conhecimento, int(escolha))
+        
+        
+    if escolha == '2':
+        ...
+    if escolha == '3':
+        ...
+    else:
+        ...
