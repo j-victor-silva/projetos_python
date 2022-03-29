@@ -72,6 +72,15 @@ while True:
         func.copiar_objetivo(objetivos, escolha)
         
     if escolha == '3':
-        ...
+        escolha = input('Digite a quandidade de asteríscos que deseja colocar: ')
+        time.sleep(3)
+        func.colar_asterisco(int(escolha))
+        
+        
     else:
-        ...
+        dia = input('Digite o dia: ')
+        mes = input('Digite o mês: ')
+        aula = input('Digite a aula: ')
+        quantidade = input('Digite a quantidade de repetições: ')
+        time.sleep(3)
+        func.data(int(dia), int(mes), int(aula), int(quantidade))

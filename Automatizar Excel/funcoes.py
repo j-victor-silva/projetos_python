@@ -29,6 +29,16 @@ def copiar_objetivo(dict, key, chave=''):
         py.press('enter')
     py.hotkey('ctrl', 'v')
     
+
+# Função para colocar asteríscos que serão utilizados para digitar o planejamento
+def colar_asterisco(quant):
+    quant1 = 0
+    time.sleep(3)
+    while quant1 != quant:
+        with py.hold('ctrl'):
+            py.press('enter')
+        py.write('*')
+        quant1 += 1
     
 
 # Funcao para colocar o dia/mes e a aula correspondente
@@ -50,14 +60,5 @@ def data(dia, mes, aula, quant):
         py.press('enter')
         
 
-# Função para colocar asteríscos que serão utilizados para digitar o planejamento
-def colar_asterisco(quant):
-    quant1 = 0
-    time.sleep(3)
-    while quant1 != quant:
-        with py.hold('ctrl'):
-            py.press('enter')
-        py.write('*')
-        quant1 += 1
         
 
