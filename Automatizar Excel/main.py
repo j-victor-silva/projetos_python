@@ -57,13 +57,20 @@ while True:
         for x, y in conhecimento.items():
             conhecimento_formatado += f'{x}:{y}\n'
         
-        escolha = input((f'Aqui está a lista de conhecimentos:\n\n{conhecimento_formatado}\n->'))
+        escolha = input(f'Aqui está a lista de conhecimentos:\n\n{conhecimento_formatado}\n->')
         time.sleep(3)
         func.copiar_conhecimento(conhecimento, int(escolha))
         
         
     if escolha == '2':
-        ...
+        objetivos_formatados = ''
+        for x, y in objetivos.items():
+            objetivos_formatados += f'{x}:{y}\n\n'
+
+        escolha = input(f'Aqui está a lista de objetivos:\n\n{objetivos_formatados}\n->')
+        time.sleep(3)
+        func.copiar_objetivo(objetivos, escolha)
+        
     if escolha == '3':
         ...
     else:
