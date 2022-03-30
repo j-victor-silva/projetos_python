@@ -10,6 +10,15 @@ import time
 
 
 # Objetivos
+conhecimento = {
+
+    1: 'O Eu, O Outro e O Nós',
+    2: 'Escuta, fala, pensamento e imaginação',
+    3: 'Corpo, gestos e movimentos',
+    4: 'Traços, sons, cores e formas',
+    5: 'Espaços, tempos, quantidades, relações e tranformações',
+}
+
 objetivos = {
     'EI03EF01CRU': 'Expressar ideias, desejos e sentimentos sobre suas vivências, por meio da linguagem oral e escrita',
     'EI03CG05CRU': 'Coordenar suas habilidades manuais no atendimento adequadro a seus interesses e necessidades',
@@ -22,65 +31,51 @@ objetivos = {
     'EI03ET03CRU': 'Identificar e selecionar fontes de informações, para responder a questões sobre a natureza',
     'EI03CG05CRU': 'Coordenar suas habilidades manuais no atendimento',
     'EI03ET01CRU': 'Estabelecer relações de comparação entre objetos, observando suas propriedades',
-}
-
-conhecimento = {
-    1: 'O Eu, O Outro e O Nós', 
-    2: 'Escuta, fala, pensamento e imaginação',
-    3: 'Corpo, gestos e movimentos',
-    4: 'Traços, sons, cores e formas',
-    5: 'Espaços, tempos, quantidades, relações e tranformações',
+    'EI03CG01CRU': 'Criar com o corpo formas diversificadas de expressão de sentimentos, sensações e emoções, tanto nas situações do cotidiano quanto em brincadeiras, dança, teatro, etc.'
 }
 
 
 def pula_linha():
     print()
-    
-
-def decorar_linha(msg=False):
-    print('=' * 40)
-    if msg:
-        print(msg)
-    
-    print('=' * 40)
 
 
 while True:
     print('\nDigite qual função você deseja executar:')
     escolha = input(f'\t1- Colar conhecimento;\n\t2- Colar objetivos;\n\t'
                     f'3- Colocar asteríscos;\n\t4- Colocar data e aula.\n\t->')
-    
+
     pula_linha()
-    
+
     if escolha == '1':
         conhecimento_formatado = ''
         for x, y in conhecimento.items():
             conhecimento_formatado += f'{x}:{y}\n'
-        
-        escolha = input(f'Aqui está a lista de conhecimentos:\n\n{conhecimento_formatado}\n->')
-        time.sleep(3)
+
+        escolha = input(
+            f'Aqui está a lista de conhecimentos:\n\n{conhecimento_formatado}\n->')
+        time.sleep(1)
         func.copiar_conhecimento(conhecimento, int(escolha))
-        
-        
-    if escolha == '2':
+
+    elif escolha == '2':
         objetivos_formatados = ''
         for x, y in objetivos.items():
             objetivos_formatados += f'{x}:{y}\n\n'
 
-        escolha = input(f'Aqui está a lista de objetivos:\n\n{objetivos_formatados}\n->')
-        time.sleep(3)
+        escolha = input(
+            f'Aqui está a lista de objetivos:\n\n{objetivos_formatados}\n->')
+        time.sleep(1)
         func.copiar_objetivo(objetivos, escolha)
-        
-    if escolha == '3':
-        escolha = input('Digite a quandidade de asteríscos que deseja colocar: ')
-        time.sleep(3)
+
+    elif escolha == '3':
+        escolha = input(
+            'Digite a quandidade de asteríscos que deseja colocar: ')
+        time.sleep(1)
         func.colar_asterisco(int(escolha))
-        
-        
+
     else:
         dia = input('Digite o dia: ')
         mes = input('Digite o mês: ')
         aula = input('Digite a aula: ')
         quantidade = input('Digite a quantidade de repetições: ')
-        time.sleep(3)
+        time.sleep(1)
         func.data(int(dia), int(mes), int(aula), int(quantidade))

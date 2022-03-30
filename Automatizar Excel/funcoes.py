@@ -20,7 +20,7 @@ def copiar_objetivo(dict, key, chave=''):
         chave = k
     
     pyper.copy(chave)
-    time.sleep(3)
+    time.sleep(1.5)
     py.doubleClick()
     py.hotkey('ctrl', 'v')
     
