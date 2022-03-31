@@ -9,7 +9,6 @@ import pyautogui as py
 import time
 
 
-# Objetivos
 conhecimento = {
 
     1: 'O Eu, O Outro e O Nós',
@@ -31,7 +30,8 @@ objetivos = {
     'EI03ET03CRU': 'Identificar e selecionar fontes de informações, para responder a questões sobre a natureza',
     'EI03CG05CRU': 'Coordenar suas habilidades manuais no atendimento',
     'EI03ET01CRU': 'Estabelecer relações de comparação entre objetos, observando suas propriedades',
-    'EI03CG01CRU': 'Criar com o corpo formas diversificadas de expressão de sentimentos, sensações e emoções, tanto nas situações do cotidiano quanto em brincadeiras, dança, teatro, etc.'
+    'EI03CG01CRU': 'Criar com o corpo formas diversificadas de expressão de sentimentos, sensações e emoções, tanto nas situações do cotidiano quanto em brincadeiras, dança, teatro, etc.',
+    'EI03ET05': 'Classificar e reconhecer objetos e figuras de acordo com suas semelhanças e diferenças'
 }
 
 

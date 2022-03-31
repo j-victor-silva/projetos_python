@@ -3,16 +3,16 @@ import pyperclip as pyper
 import time
 
 
-# Função para copiar o campo de conhecimento
 def copiar_conhecimento(dict, index):
+    """Função para copiar o campo de conhecimento"""
     pyper.copy(dict[index])
     time.sleep(3)
     py.press('enter')
     py.hotkey('ctrl', 'v')
     
     
-# Função para copiar o objetivo(ID) e sua descrição
 def copiar_objetivo(dict, key, chave=''):
+    """Função para copiar o objetivo(ID) e sua descrição"""
     for k in dict.keys():
         if not k == key:
             continue
@@ -21,7 +21,7 @@ def copiar_objetivo(dict, key, chave=''):
     
     pyper.copy(chave)
     time.sleep(1.5)
-    py.doubleClick()
+    py.press('enter')
     py.hotkey('ctrl', 'v')
     
     pyper.copy(f'\n{dict[key]}')
@@ -30,8 +30,9 @@ def copiar_objetivo(dict, key, chave=''):
     py.hotkey('ctrl', 'v')
     
 
-# Função para colocar asteríscos que serão utilizados para digitar o planejamento
 def colar_asterisco(quant):
+    """Função para colocar asteríscos que serão utilizados para 
+       digitar o planejamento"""
     quant1 = 0
     time.sleep(3)
     while quant1 != quant:
@@ -41,8 +42,8 @@ def colar_asterisco(quant):
         quant1 += 1
     
 
-# Funcao para colocar o dia/mes e a aula correspondente
 def data(dia, mes, aula, quant):
+    """Funcao para colocar o dia/mes e a aula correspondente"""
     time.sleep(3)
     for i in range(quant):
         if not dia >= 10:
