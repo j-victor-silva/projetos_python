@@ -31,7 +31,9 @@ objetivos = {
     'EI03CG05CRU': 'Coordenar suas habilidades manuais no atendimento',
     'EI03ET01CRU': 'Estabelecer relações de comparação entre objetos, observando suas propriedades',
     'EI03CG01CRU': 'Criar com o corpo formas diversificadas de expressão de sentimentos, sensações e emoções, tanto nas situações do cotidiano quanto em brincadeiras, dança, teatro, etc.',
-    'EI03ET05': 'Classificar e reconhecer objetos e figuras de acordo com suas semelhanças e diferenças'
+    'EI03ET05': 'Classificar e reconhecer objetos e figuras de acordo com suas semelhanças e diferenças',
+    'EI03E003CRU': 'Ampliar as relações interpessoais, desenvolvendo atitudes de participação, cooperação e solidariedade',
+    'EI03EF02CRU': 'Inventar brincadeiras, cantadas, poemas e canções, criando rimas'
 }
 
 
@@ -53,7 +55,8 @@ while True:
 
         escolha = input(
             f'Aqui está a lista de conhecimentos:\n\n{conhecimento_formatado}\n->')
-        time.sleep(1)
+        time.sleep(0.5)
+        py.hotkey('alt', 'tab')
         func.copiar_conhecimento(conhecimento, int(escolha))
 
     elif escolha == '2':
@@ -63,13 +66,15 @@ while True:
 
         escolha = input(
             f'Aqui está a lista de objetivos:\n\n{objetivos_formatados}\n->')
-        time.sleep(1)
+        time.sleep(0.5)
+        py.hotkey('alt', 'tab')
         func.copiar_objetivo(objetivos, escolha)
 
     elif escolha == '3':
         escolha = input(
             'Digite a quandidade de asteríscos que deseja colocar: ')
-        time.sleep(1)
+        time.sleep(0.5)
+        py.hotkey('alt', 'tab')
         func.colar_asterisco(int(escolha))
 
     else:
@@ -77,5 +82,7 @@ while True:
         mes = input('Digite o mês: ')
         aula = input('Digite a aula: ')
         quantidade = input('Digite a quantidade de repetições: ')
-        time.sleep(1)
+        time.sleep(0.5)
+        py.hotkey('alt', 'tab')
         func.data(int(dia), int(mes), int(aula), int(quantidade))
+        
