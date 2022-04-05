@@ -33,7 +33,8 @@ objetivos = {
     'EI03CG01CRU': 'Criar com o corpo formas diversificadas de expressão de sentimentos, sensações e emoções, tanto nas situações do cotidiano quanto em brincadeiras, dança, teatro, etc.',
     'EI03ET05': 'Classificar e reconhecer objetos e figuras de acordo com suas semelhanças e diferenças',
     'EI03E003CRU': 'Ampliar as relações interpessoais, desenvolvendo atitudes de participação, cooperação e solidariedade',
-    'EI03EF02CRU': 'Inventar brincadeiras, cantadas, poemas e canções, criando rimas'
+    'EI03EF02CRU': 'Inventar brincadeiras, cantadas, poemas e canções, criando rimas',
+    'EI03ET04CRU': 'Registrar observações, manipulações e medidas, usando múltiplas linguagens (desenho, registro por números ou escrita espontânea)'
 }
 
 
