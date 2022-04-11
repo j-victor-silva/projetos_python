@@ -1,10 +1,25 @@
+'''
+Calculadora de subredes IPV4
+
+Esse programa usa uma classe para que seja definido posteriormente por seu objeto
+o endereço de IP da rede, retornando assim suas informações, como:
+-IP;
+-Máscara;
+-IP da rede;
+-Broadcast;
+-CIDR (prefixo);
+-Número de IP's disponíveis.
+'''
 class CalcIPV4:
+    '''Esta é a classe para calcular a rede IPV4'''
     bits = [128, 64, 32, 16, 8, 4, 2, 1]
     masc = 24
     zeros = 0
     bits_vazios = []
 
     def __init__(self, ip, mascara=None, cidr=None) -> None:
+        '''Nosso método construtor, onde está sendo definido
+        os atributos que serão retornados na execução do programa'''
         self.ip = ip
         self.mascara = mascara
         self.cidr = cidr
@@ -13,6 +28,8 @@ class CalcIPV4:
         self.numero_ips = None
 
     def calc_mascara(self):
+        '''Método que calcula a máscara de subrede caso
+        não tenha sido atribuida no objeto'''
         if not self.mascara:
             self.mascara = '255.255.255.'
             self.zeros = self.cidr - self.masc
@@ -22,8 +39,13 @@ class CalcIPV4:
                     break
                 num += b
             self.mascara += str(num)
+            return
+        
+        return self.mascara
 
     def calc_cidr(self):
+        '''Método que retorna o CIDR da rede caso não tenha sido
+        atribuido, utilizando a máscara de subrede como base'''
         if not self.cidr:
             ultimo_digito = self.mascara.split('.')
             var = 0
@@ -52,9 +74,11 @@ class CalcIPV4:
             self.zeros = self.calculo_cidr(self.zeros, self.cidr)
 
     def calc_numero_ips(self):
+        '''Método que calcula o número de hosts (IP's)'''
         self.numero_ips = (2 ** self.zeros)
 
     def calc_rede(self):
+        '''Método que retorna o IP da rede'''
         self.rede = self.ip.split('.')
         self.rede[-1] = '0'
         self.rede = '.'.join(self.rede)
@@ -64,6 +88,8 @@ class CalcIPV4:
 
     @staticmethod
     def calculo_cidr(zeros, valor: int):
+        '''Método estático para calcular o número de IP's
+        caso tenha sido atribuido o CIDR'''
         cidr = [x for x in range(32, 23, -1)]
         new_dict = dict({})
         for v1, v2 in enumerate(cidr):
@@ -75,6 +101,7 @@ class CalcIPV4:
                 continue
 
     def executar_classe(self):
+        '''Método para executar toda a classe'''
         self.calc_mascara()
         self.calc_cidr()
         self.calc_numero_ips()
@@ -82,7 +109,7 @@ class CalcIPV4:
 
 
 if __name__ == '__main__':
-    calc_ipv4 = CalcIPV4(ip='192.168.0.20', cidr=32)
+    calc_ipv4 = CalcIPV4(ip='192.168.0.20', mascara='255.255.255.2')
     calc_ipv4.executar_classe()
     print(f'IP: {calc_ipv4.ip}')
     print(f'Máscara: {calc_ipv4.mascara}')
