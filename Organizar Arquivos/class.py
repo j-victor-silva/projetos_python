@@ -10,9 +10,6 @@ ext_music = ('.mp3')
 ext_video = ('.mp4', '.mkv')
 ext_imagem = ('.jpeg', '.jpg', '.png')
 
-"""Diretório original, mude para o seu"""
-dir_original = 'D:\\Downloads'
-
 """Novos diretórios, coloque aqui para onde cada arquivo vai
    seguindo a ordem:
    1-Documentos
@@ -22,9 +19,14 @@ dir_original = 'D:\\Downloads'
    5-Videos
    6-Imagens
 """
-new_dirs = {1: 'D:\\Arquivos\\Documents', 2: 'D:\\Arquivos\\Programs',
-            3: 'D:\\Arquivos\\Compressed', 4: 'D:\\Arquivos\\Music',
-            5: 'D:\\Arquivos\\Video', 6: 'D:\\Arquivos\\Imagens'}
+dir_original = ''
+new_dirs = dict({})
+def letter_disk(l='C'):
+    '''Função para definir o disco que será salvo os arquivos'''
+    new_dirs = {1: f'{l}:\\Arquivos\\Documents', 2: f'{l}:\\Arquivos\\Programs',
+                3: f'{l}:\\Arquivos\\Compressed', 4: f'{l}:\\Arquivos\\Music',
+                5: f'{l}:\\Arquivos\\Video', 6: f'{l}:\\Arquivos\\Imagens',}
+    dir_original = f'{l}:\\Downloads'
 
 
 class Organizador:
@@ -158,9 +160,18 @@ class Organizador:
                         shutil.move(old_file_path, new_file_path)
         else: pass
         
+    def create_folders(self):
+        '''Método para criar as pastas que serão movidos os arquivos'''
+        for folders in self.new_dir.values():
+            try:
+                os.mkdir(folders)
+            except FileExistsError as e:
+                pass
+        
     def exec_class(self):
         '''Método que irá executar toda a classe e 
         indicar quantos arquivos serão movidos'''
+        self.create_folders()
         self.move_doc()
         self.move_program()
         self.move_compress()
@@ -176,6 +187,7 @@ class Organizador:
 
 
 if __name__ == '__main__':
+    letter_disk(input('Digite a letra do seu disco (C por padrão): '))
     teste = Organizador(dir_original, new_dirs, ext_texto, ext_program, 
                         ext_compress, ext_music, ext_video, ext_imagem)
     teste.exec_class()
