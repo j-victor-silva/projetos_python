@@ -4,6 +4,7 @@ import sys
 
 
 class Conversor:
+    '''Classe utilizada para converter os arquivos'''
     def __init__(self, ext) -> None:
         self.ext = ext
         self._codec_video = '-c:v libx264'
@@ -38,12 +39,15 @@ class Conversor:
         return self._debug
 
     def comando(self):
+        '''Comando para que seja feito a localização do ffmpeg.exe'''
         if sys.platform == 'linux':
             self.command = 'ffmpeg'
         else:
             self.command = 'C:\Python\\ffmpeg\\ffmpeg.exe'
 
     def folder(self):
+        '''Método para criar as pastas de entrada e saída, caso já exista
+        o programa irá ignorar este método'''
         try:
             self.path_or = os.mkdir('D:\\Arquivos\\Video_entrada')
             self.path_fn = os.mkdir('D:\\Arquivos\\Video_saida')
@@ -52,6 +56,8 @@ class Conversor:
             self.path_fn = 'D:\\Arquivos\\Video_saida'
 
     def converte(self):
+        '''Método que irá converter os vídeos, se caso não
+        tenha nenhum arquivo, o programa simplesmente irá parar'''
         for root, folders, files in os.walk(self.path_or):
             for file in files:
                 if not fnmatch.fnmatch(file, "*.mp4" or "*.mkv"):
@@ -73,6 +79,6 @@ class Conversor:
 
 
 if __name__ == '__main__':
-    teste = Conversor(input('Digite pra qual tipo de arquivo será'
+    teste = Conversor(input('Digite pra qual tipo de arquivo será '
                             'convertido, EX: mkv, mp4: '))
     teste.exec_class()
