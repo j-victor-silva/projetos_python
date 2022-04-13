@@ -47,7 +47,7 @@ for raiz, diretorios, arquivos in os.walk(caminho_procura):
                 nome_arquivo, ext_arquivo = os.path.splitext(arquivo)
                 tamanho = os.path.getsize(caminho_completo)
                 
-                print(f'\nNome do arquivo: {arquivo}')
+                print(f'\nNome do arquivo completo: {arquivo}')
                 print(f'Caminho: {caminho_completo}')
                 print(f'Nome: {nome_arquivo}')
                 print(f'Extensão: {ext_arquivo}')
