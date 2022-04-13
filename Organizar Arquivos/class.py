@@ -2,6 +2,7 @@ import os
 import shutil
 
 
+"""Extensões para detectar para onde os arquivos irão"""
 ext_texto = ('.pdf', '.docx', '.txt')
 ext_program = ('.exe', '.msi')
 ext_compress = ('.rar', '.zip', '.7z')
@@ -9,19 +10,38 @@ ext_music = ('.mp3')
 ext_video = ('.mp4', '.mkv')
 ext_imagem = ('.jpeg', '.jpg', '.png')
 
+"""Diretório original, mude para o seu"""
 dir_original = 'D:\\Downloads'
 
+"""Novos diretórios, coloque aqui para onde cada arquivo vai
+   seguindo a ordem:
+   1-Documentos
+   2-Programas
+   3-Arquivos ZIP
+   4-Musicas
+   5-Videos
+   6-Imagens
+"""
 new_dirs = {1: 'D:\\Arquivos\\Documents', 2: 'D:\\Arquivos\\Programs',
             3: 'D:\\Arquivos\\Compressed', 4: 'D:\\Arquivos\\Music',
             5: 'D:\\Arquivos\\Video', 6: 'D:\\Arquivos\\Imagens'}
 
 
 class Organizador:
+    '''Classe que irá fazer todo o trabalho de mover os arquivos'''
     conta = 0
     
     def __init__(self, dir_original: str, new_dir: dict, type_tex=None, type_program=None,
                  type_compress=None, type_music=None, 
                  type_video=None, type_imagem=None) -> None:
+        '''Método construtor, aqui os type estão em None por que
+           você pode ou não mover alguns arquivos, se você quiser.
+           Se deseja especificar apenas quais serão os tipos de arquivos
+           coloque dentro do objeto que você irá criar:
+           Ex: você quer que documentos e imagens sejam movidos?
+           Coloque:
+           obj_test = Organizador(dir_original, new_dirs, type_tex=ext_texto,
+           type_imagem=ext_imagem)'''
         
         self._dir_original = dir_original
         self._new_dir = new_dir
@@ -55,6 +75,7 @@ class Organizador:
         return self._new_dir
     
     def move_doc(self):
+        '''Método que irá mover os documentos'''
         if self.type_tex:
             for root, dirs, files in os.walk(self.dir_original):
                 for file in files:
@@ -68,6 +89,7 @@ class Organizador:
         else: pass
 
     def move_program(self):
+        '''Método que irá mover os programas'''
         if self.type_program:
             for root, dirs, files in os.walk(self.dir_original):
                 for file in files:
@@ -81,6 +103,7 @@ class Organizador:
         else: pass
         
     def move_compress(self):
+        '''Método que irá mover os arquivos zipados'''
         if self.type_compress:
             for root, dirs, files in os.walk(self.dir_original):
                 for file in files:
@@ -94,6 +117,7 @@ class Organizador:
         else: pass
     
     def move_music(self):
+        '''Método que irá mover as músicas'''
         if self.type_music:
             for root, dirs, files in os.walk(self.dir_original):
                 for file in files:
@@ -107,6 +131,7 @@ class Organizador:
         else: pass
         
     def move_video(self):
+        '''Método que irá mover os vídeos'''
         if self.type_video:
             for root, dirs, files in os.walk(self.dir_original):
                 for file in files:
@@ -120,6 +145,7 @@ class Organizador:
         else: pass
         
     def move_imagem(self):
+        '''Método que irá mover as imagens'''
         if self.type_imagem:
             for root, dirs, files in os.walk(self.dir_original):
                 for file in files:
@@ -133,6 +159,8 @@ class Organizador:
         else: pass
         
     def exec_class(self):
+        '''Método que irá executar toda a classe e 
+        indicar quantos arquivos serão movidos'''
         self.move_doc()
         self.move_program()
         self.move_compress()
