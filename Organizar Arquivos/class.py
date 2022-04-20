@@ -7,6 +7,12 @@ from sys import platform
 ext_texto = ('.pdf', '.docx', '.txt', '.json')
 ext_program = ('.exe', '.msi', '.run')
 ext_compress = ('.rar', '.zip', '.7z', '.deb')
+
+
+"""Extensões para detectar para onde os arquivos irão"""
+ext_texto = ('.pdf', '.docx', '.txt')
+ext_program = ('.exe', '.msi')
+ext_compress = ('.rar', '.zip', '.7z')
 ext_music = ('.mp3')
 ext_video = ('.mp4', '.mkv')
 ext_imagem = ('.jpeg', '.jpg', '.png')
@@ -36,6 +42,14 @@ def letter_disk(user: str, l: str='C'):
         new_dirs = {1: f'{l}:\\Arquivos\\Documents', 2: f'{l}:\\Arquivos\\Programs',
                     3: f'{l}:\\Arquivos\\Compressed', 4: f'{l}:\\Arquivos\\Music',
                     5: f'{l}:\\Arquivos\\Video', 6: f'{l}:\\Arquivos\\Imagens',}
+dir_original = ''
+new_dirs = dict({})
+def letter_disk(l='C'):
+    '''Função para definir o disco que será salvo os arquivos'''
+    new_dirs = {1: f'{l}:\\Arquivos\\Documents', 2: f'{l}:\\Arquivos\\Programs',
+                3: f'{l}:\\Arquivos\\Compressed', 4: f'{l}:\\Arquivos\\Music',
+                5: f'{l}:\\Arquivos\\Video', 6: f'{l}:\\Arquivos\\Imagens',}
+    dir_original = f'{l}:\\Downloads'
 
 
 class Organizador:
@@ -198,6 +212,7 @@ class Organizador:
 if __name__ == '__main__':
     letter_disk(input('Digite o user (caso seja linux) ou a letra do disco '
                       'caso seja windows: '))
+    letter_disk(input('Digite a letra do seu disco (C por padrão): '))
     teste = Organizador(dir_original, new_dirs, ext_texto, ext_program, 
                         ext_compress, ext_music, ext_video, ext_imagem)
     teste.exec_class()
