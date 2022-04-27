@@ -21,18 +21,20 @@ ext_imagem = ('.jpeg', '.jpg', '.png', '.gif', '.jfif', '.webp', '.GIF')
    6-Imagens
 """
 
-
-def letter_disk(user: str, l: str = 'C'):
-    global dir_original, new_dirs
-    '''Função para definir o disco que será salvo os arquivos'''
-    if platform == 'linux':
+if platform == 'linux':
+    '''Função para definir o disco que será salvo os arquivos ou usuário
+       caso seja sistema Linux'''
+    def letter_disk(user: str):
+        global dir_original, new_dirs
         dir_original = f'/home/{user}/Downloads'
 
         new_dirs = {1: f'/home/{user}/Documentos', 2: f'/home/{user}/Programs',
                     3: f'/home/{user}/Compressed', 4: f'/home/{user}/Música',
                     5: f'/home/{user}/Vídeos', 6: f'/home/{user}/Imagens'}
 
-    else:
+else:
+    def letter_disk(l: str = 'C'):
+        global dir_original, new_dirs
         dir_original = fr'{l}:\Downloads'
 
         new_dirs = {1: fr'{l}:\Arquivos\Documents', 2: fr'{l}:\Arquivos\Programs',
