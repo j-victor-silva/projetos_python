@@ -1,3 +1,6 @@
+'''
+Por enquanto, este programa não funciona devido a problemas na lib do pytube.
+'''
 import fnmatch
 import os
 import shutil
