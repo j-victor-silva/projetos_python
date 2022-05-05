@@ -3,6 +3,7 @@ import pymysql.cursors
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
 from login import *
 from login_erro import *
+from typing import Type
 
 
 class Conexao():
@@ -34,13 +35,15 @@ class Conexao():
 
 
 class LoginWindow(QMainWindow, Ui_MainWindow, Conexao):
-    def __init__(self, database, conexao: str = '127.0.0.1', parent=None) -> None:
+    def __init__(self, database: str, error: Type[Conexao], \
+                 conexao: str = '127.0.0.1', parent=None) -> None:
         super().__init__(parent)
         super().setupUi(self)
-        super().__initt__(database, conexao) # Inicializador da classe Conexao
+        super().__initt__(database, conexao)  # Inicializador da classe Conexao
         '''Por algum motivo se a classe for chamada ao invés de ser usado o
            super() o programa dá erro, então tive que alterar o nome do 
            inicializador da classe Conexao'''
+        self.error = error # Instancia que irá chamar a DialogBox de erro
 
         self.btnEntrar.clicked.connect(self.autenticar)
 
@@ -53,18 +56,16 @@ class LoginWindow(QMainWindow, Ui_MainWindow, Conexao):
             for linha in self.listagem:
                 if user in linha['usuario'] and password in linha['senha']:
                     if user == '' or password == '':
-                        print('Usuário ou senha inválidos')
-                        break
-
-                    print('Usuario autenticado')
-                    break
+                        self.error.show()
+                        return
+                    return True
                 if not user in linha['usuario'] and password in linha['senha']:
-                    print('Usuário ou senha inválidos')
-                    break
+                    self.error.show()
+                    return
                 else:
                     continue
 
-            break
+            return
 
 
 class LoginError(QDialog, Ui_Dialog):
@@ -72,20 +73,13 @@ class LoginError(QDialog, Ui_Dialog):
         super().__init__(parent)
         super().setupUi(self)
 
-        self.btnErro.clicked.connect(self.encerrar)
-
-    def encerrar(self):
-        self.close()
+        self.btnErro.clicked.connect(self.close)
 
 
 if __name__ == '__main__':
     qt = QApplication(sys.argv)
-    app = LoginWindow('usuarios')
     error = LoginError()
+    app = LoginWindow('usuarios', error)
 
     app.show()
     qt.exec_()
-
-    # database = Conexao('usuarios')
-    # database.lista('usuariosroot')
-    # database.encerrar()
