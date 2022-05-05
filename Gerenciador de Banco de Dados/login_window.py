@@ -28,7 +28,6 @@ class Conexao():
         comando = f'SELECT * FROM {table}'
         self.cursor.execute(comando)
         self.listagem = self.cursor.fetchall()
-        print(self.listagem)
 
     def encerrar(self):
         self.cursor.close()
