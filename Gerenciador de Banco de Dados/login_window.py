@@ -24,18 +24,18 @@ class Conexao():
            do inicializador resolveu o problema'''
         self.cursor = self.conexao.cursor()
 
-    def lista(self, table) -> dict:
+    def dados(self, table) -> dict:
         comando = f'SELECT * FROM {table}'
         self.cursor.execute(comando)
         self.listagem = self.cursor.fetchall()
 
-    def encerrar(self) -> None:
+    def encerrar(self):
         self.cursor.close()
         self.conexao.close()
 
 
 class LoginWindow(QMainWindow, Ui_MainWindow, Conexao):
-    def __init__(self, database: str, error: Type[Conexao], \
+    def __init__(self, database: str, error: Type[Conexao],
                  conexao: str = '127.0.0.1', parent=None) -> None:
         super().__init__(parent)
         super().setupUi(self)
@@ -43,13 +43,12 @@ class LoginWindow(QMainWindow, Ui_MainWindow, Conexao):
         '''Por algum motivo se a classe for chamada ao invés de ser usado o
            super() o programa dá erro, então tive que alterar o nome do 
            inicializador da classe Conexao'''
-        self.error = error # Instancia que irá chamar a DialogBox de erro
-
+        self.error = error  # Instancia que irá chamar a DialogBox de erro
         self.btnEntrar.clicked.connect(self.autenticar)
 
     def autenticar(self):
         while True:
-            self.lista('usuariosroot')
+            self.dados('usuariosroot')
             user = self.inputUser.text()
             password = self.inputPassword.text()
 
@@ -64,7 +63,6 @@ class LoginWindow(QMainWindow, Ui_MainWindow, Conexao):
                     return
                 else:
                     continue
-
             return
 
 
@@ -83,3 +81,6 @@ if __name__ == '__main__':
 
     app.show()
     qt.exec_()
+
+    if app.close:
+        app.encerrar()
