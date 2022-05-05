@@ -23,9 +23,9 @@ Banco será responsável autenticar o cliente e as contas da seguinte maneira:
     * Checar se a conta é daquele banco
 Só será possível autenticar se passar na autenticação acima
 '''
-from classe.banco import Banco
-from classe.cliente import Cliente
-from classe.conta import ContaCorrente, ContaPoupanca
+from banco import Banco
+from cliente import Cliente
+from conta import ContaCorrente, ContaPoupanca
 
 cliente_1 = Cliente('João', 19)
 conta_1 = ContaCorrente(2222, 1111, 0, 100)
