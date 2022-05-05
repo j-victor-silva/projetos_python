@@ -28,6 +28,7 @@ class Conexao():
         comando = f'SELECT * FROM {table}'
         self.cursor.execute(comando)
         self.listagem = self.cursor.fetchall()
+        print(self.listagem)
 
     def encerrar(self):
         self.cursor.close()
@@ -47,23 +48,22 @@ class LoginWindow(QMainWindow, Ui_MainWindow, Conexao):
         self.btnEntrar.clicked.connect(self.autenticar)
 
     def autenticar(self):
+        index = 0
         while True:
             self.dados('usuariosroot')
             user = self.inputUser.text()
             password = self.inputPassword.text()
 
-            for linha in self.listagem:
-                if user in linha['usuario'] and password in linha['senha']:
-                    if user == '' or password == '':
-                        self.error.show()
-                        return
+            try:
+                if not user == self.listagem[index]['usuario'] or not password == self.listagem[index]['senha']:
+                    index += 1
+                    
+                if user == self.listagem[index]['usuario'] and password == self.listagem[index]['senha']:
                     return True
-                if not user in linha['usuario'] and password in linha['senha']:
-                    self.error.show()
-                    return
-                else:
-                    continue
-            return
+            
+            except IndexError as e:
+                self.error.show()
+                return  
 
 
 class LoginError(QDialog, Ui_Dialog):
