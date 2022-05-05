@@ -17,7 +17,10 @@ class Conexao():
         )
         '''Conexão criada para o servidor local sql, ou então pra qualquer
            servidor que for atribuido, por algum motivo não é possível
-           a database na hora que for chamada a classe'''
+           a database na hora que for chamada a classe
+           ATUALIZAÇÃO: Consegui resolver me baseando no erro de quando
+           a classe é chamada na "filha" sem usar o super(), mudando o nome
+           do inicializador resolveu o problema'''
         self.cursor = self.conexao.cursor()
 
     def lista(self, table) -> dict:
