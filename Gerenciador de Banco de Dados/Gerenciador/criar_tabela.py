@@ -15,6 +15,8 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(238, 297)
+        Dialog.setMinimumSize(QtCore.QSize(238, 297))
+        Dialog.setMaximumSize(QtCore.QSize(238, 297))
         self.inputNameTable = QtWidgets.QLineEdit(Dialog)
         self.inputNameTable.setGeometry(QtCore.QRect(90, 10, 131, 20))
         self.inputNameTable.setObjectName("inputNameTable")
@@ -55,7 +57,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        Dialog.setWindowTitle(_translate("Dialog", "Criar"))
         self.btnCreate.setText(_translate("Dialog", "Criar"))
         self.label.setText(_translate("Dialog", "Nome da tabela:"))
         self.label_2.setText(_translate("Dialog", "Colunas:"))

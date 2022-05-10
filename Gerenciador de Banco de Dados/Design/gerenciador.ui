@@ -6,15 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>657</width>
-    <height>445</height>
+    <width>669</width>
+    <height>466</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>669</width>
+    <height>466</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>669</width>
+    <height>466</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Gerenciador</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QScrollArea" name="scrollArea">
+   <widget class="QScrollArea" name="areaTables">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -37,7 +49,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <widget class="QTableView" name="tableView"/>
+       <widget class="QTableView" name="tableViewer"/>
       </item>
      </layout>
     </widget>
@@ -91,7 +103,7 @@
      <string>Deletar Dados:</string>
     </property>
    </widget>
-   <widget class="QScrollArea" name="scrollArea_2">
+   <widget class="QScrollArea" name="areaDados">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -114,7 +126,20 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
-       <widget class="QTableView" name="tableView_2"/>
+       <widget class="QTableView" name="dadosViewer">
+        <property name="minimumSize">
+         <size>
+          <width>211</width>
+          <height>241</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>211</width>
+          <height>241</height>
+         </size>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
