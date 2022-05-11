@@ -22,7 +22,7 @@ class ConexaoDB():
         )
 
         self.cursor = self.conexao.cursor()
-        
+
     def encerrar(self):
         self.cursor.close()
         self.conexao.close()
@@ -39,8 +39,6 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         # ser aberto é o do programa
 
         self.btnAbrirDB.clicked.connect(self.abrir_db)  # Botão para abrir a DB
-        
-        
 
     def abrir_db(self) -> None:
         # Método para abrir o arquivo DB
@@ -51,13 +49,28 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         )
 
         _, novo_arquivo = os.path.split(arquivo)
-        
+
         if not '.sql' in novo_arquivo:
             return
 
         self.inputDBName.setText(
             novo_arquivo
         )
+
+        self.listTables.addItem(
+            self.view_table()
+        )
+
+    def view_table(self):
+        self.cursor.execute('SHOW tables')
+        self.conexao.commit()
+        self.tabelas = self.cursor.fetchall()
+
+        for i in self.tabelas:
+            tables = i.values()
+            re.sub(r"[dict_values([''])]", '', tables)
+
+        return str(tables)
 
 
 if __name__ == '__main__':

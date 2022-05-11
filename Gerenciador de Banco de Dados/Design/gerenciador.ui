@@ -49,7 +49,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <widget class="QTableView" name="tableViewer"/>
+       <widget class="QListWidget" name="listTables"/>
       </item>
      </layout>
     </widget>
