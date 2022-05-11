@@ -57,20 +57,25 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
             novo_arquivo
         )
 
-        self.listTables.addItem(
+        self.listTables.addItems(
             self.view_table()
         )
 
     def view_table(self):
+        tables = []
         self.cursor.execute('SHOW tables')
         self.conexao.commit()
         self.tabelas = self.cursor.fetchall()
 
         for i in self.tabelas:
-            tables = i.values()
-            re.sub(r"[dict_values([''])]", '', tables)
+            for t in i.values():
+                tables.append(t)
+            # tables.replace("dict_values([''])", '')
 
-        return str(tables)
+        return tables
+    
+    def view_data(self):
+        ...
 
 
 if __name__ == '__main__':
