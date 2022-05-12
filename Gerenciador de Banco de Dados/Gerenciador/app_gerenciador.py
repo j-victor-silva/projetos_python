@@ -1,8 +1,8 @@
 import sys
 import pymysql.cursors
 import os
-import re
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QFileDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
+from data.data import *
 from criar_tabela import *
 from gerenciador import *
 from pathlib import Path
@@ -18,7 +18,7 @@ class ConexaoDB():
             password='',
             db=database,
             charset='utf8mb4',
-            cursorclass=pymysql.cursors.DictCursor
+            cursorclass=pymysql.cursors.Cursor
         )
 
         self.cursor = self.conexao.cursor()
@@ -26,7 +26,7 @@ class ConexaoDB():
     def encerrar(self):
         self.cursor.close()
         self.conexao.close()
-
+        
 
 class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
     def __init__(self, database: str, conexao: str = '127.0.0.1',
@@ -34,11 +34,12 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         super().__init__(parent)
         super().setupUi(self)
         super().__initt__(database, conexao)
-
         self.FILE_DIR = Path(__file__).parent  # Por padrão o diretório que irá
         # ser aberto é o do programa
-
+        
         self.btnAbrirDB.clicked.connect(self.abrir_db)  # Botão para abrir a DB
+        
+        
 
     def abrir_db(self) -> None:
         # Método para abrir o arquivo DB
@@ -60,6 +61,12 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         self.listTables.addItems(
             self.view_table()
         )
+        tabela_nome = str(self.listTables.currentItem())
+        tabela_nome = tabela_nome.replace('.none', '')
+        dados = self.view_data(tabela_nome)
+        self.modelo = CustomTableModel(dados)
+        self.dadosViewer.setModel(self.modelo)
+
 
     def view_table(self):
         tables = []
@@ -68,15 +75,23 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         self.tabelas = self.cursor.fetchall()
 
         for i in self.tabelas:
-            for t in i.values():
-                tables.append(t)
-            # tables.replace("dict_values([''])", '')
+            for l in i:
+                tables.append(l)
 
         return tables
-    
-    def view_data(self):
-        ...
 
+    def view_data(self, tabela):
+        self.cursor.execute(f'SELECT * FROM {tabela}')
+        self.conexao.commit()
+        resultados = self.cursor.fetchall()
+        
+        num_column = len(self.cursor.description)
+        nome_colunas = [x[0] for x in self.cursor.description]
+        
+        final = (resultados, nome_colunas)
+
+        return final
+        
 
 if __name__ == '__main__':
     qt = QApplication(sys.argv)

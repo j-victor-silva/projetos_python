@@ -29,6 +29,8 @@ class Ui_MainWindow(object):
         self.gridLayout = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout.setObjectName("gridLayout")
         self.listTables = QtWidgets.QListWidget(self.scrollAreaWidgetContents)
+        self.listTables.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.listTables.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectItems)
         self.listTables.setObjectName("listTables")
         self.gridLayout.addWidget(self.listTables, 0, 0, 1, 1)
         self.areaTables.setWidget(self.scrollAreaWidgetContents)
