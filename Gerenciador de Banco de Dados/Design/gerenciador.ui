@@ -32,7 +32,7 @@
       <x>10</x>
       <y>30</y>
       <width>231</width>
-      <height>111</height>
+      <height>131</height>
      </rect>
     </property>
     <property name="widgetResizable">
@@ -44,7 +44,7 @@
        <x>0</x>
        <y>0</y>
        <width>229</width>
-       <height>109</height>
+       <height>129</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout">
@@ -114,7 +114,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>180</y>
+      <y>200</y>
       <width>231</width>
       <height>261</height>
      </rect>
@@ -150,19 +150,6 @@
       </item>
      </layout>
     </widget>
-   </widget>
-   <widget class="QLabel" name="label_7">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>153</y>
-      <width>47</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Dados:</string>
-    </property>
    </widget>
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
@@ -339,6 +326,41 @@
        </property>
        <property name="text">
         <string>Apagar</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>170</y>
+      <width>161</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_4">
+     <property name="horizontalSpacing">
+      <number>6</number>
+     </property>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="btnDados">
+       <property name="text">
+        <string>Visualizar</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Dados:</string>
        </property>
       </widget>
      </item>

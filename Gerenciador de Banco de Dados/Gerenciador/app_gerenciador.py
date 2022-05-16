@@ -26,7 +26,7 @@ class ConexaoDB():
     def encerrar(self):
         self.cursor.close()
         self.conexao.close()
-        
+
 
 class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
     def __init__(self, database: str, conexao: str = '127.0.0.1',
@@ -36,10 +36,10 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         super().__initt__(database, conexao)
         self.FILE_DIR = Path(__file__).parent  # Por padrão o diretório que irá
         # ser aberto é o do programa
-        
+
         self.btnAbrirDB.clicked.connect(self.abrir_db)  # Botão para abrir a DB
-        
-        
+
+        self.btnDados.clicked.connect(self.select_table)
 
     def abrir_db(self) -> None:
         # Método para abrir o arquivo DB
@@ -61,12 +61,6 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         self.listTables.addItems(
             self.view_table()
         )
-        tabela_nome = str(self.listTables.currentItem())
-        tabela_nome = tabela_nome.replace('.none', '')
-        dados = self.view_data(tabela_nome)
-        self.modelo = CustomTableModel(dados)
-        self.dadosViewer.setModel(self.modelo)
-
 
     def view_table(self):
         tables = []
@@ -84,14 +78,27 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         self.cursor.execute(f'SELECT * FROM {tabela}')
         self.conexao.commit()
         resultados = self.cursor.fetchall()
-        
+
         num_column = len(self.cursor.description)
         nome_colunas = [x[0] for x in self.cursor.description]
-        
+
         final = (resultados, nome_colunas)
 
         return final
-        
+
+    def select_table(self):
+        try:
+            tabela = self.listTables.selectedIndexes()[0]
+            dados = self.view_data(tabela.data())
+
+            self.modelo = CustomTableModel(dados)
+            self.dadosViewer.setModel(self.modelo)
+            self.dadosViewer.setStyleSheet(
+                'font-size: 11px;'
+            )
+        except:
+            return
+
 
 if __name__ == '__main__':
     qt = QApplication(sys.argv)
