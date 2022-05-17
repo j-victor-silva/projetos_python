@@ -7,38 +7,60 @@ from data.data import *
 from design.criar_tabela import *
 from design.gerenciador import *
 from conexao.conexao import *
+import design.sucesso as sucesso
 
 
 class CriarTabela(QDialog, Ui_Dialog):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         super().setupUi(self)
+        
+
+class Sucesso(QDialog, sucesso.Ui_Sucesso):
+    def __init__(self, parent=None) -> None:
+        super().__init__(parent)
+        super().setupUi(self)
 
 
 class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
-    def __init__(self, database: str, window: Type[CriarTabela],
+    def __init__(self, database: str,
                  conexao: str = '127.0.0.1', parent=None) -> None:
+        # Conectando a tela do programa
         super().__init__(parent)
         super().setupUi(self)
+        # Chamando a conexão com a database
         ConexaoDB.__init__(self, database, conexao)
 
-        self.window = window  # Será chamado a janela para criar a tabela
+        # Será chamado a janela para criar a tabela
+        self.window = CriarTabela()
+        # Janela que irá aparecer após criar a tabela com sucesso
+        self.sucesso = Sucesso()
 
-        self.FILE_DIR = Path(__file__).parent  # Por padrão o diretório que irá
-        # ser aberto é o do programa
+        # Por padrão o diretório que irá ser aberto é o do programa
+        self.FILE_DIR = Path(__file__).parent  
 
-        self.btnAbrirDB.clicked.connect(self.abrir_db)  # Botão para abrir a DB
+        # Botão para abrir a DB
+        self.btnAbrirDB.clicked.connect(self.abrir_db)  
 
-        self.btnDados.clicked.connect(
-            self.select_table)  # Botão para ver dados
-
-        self.btnCriarTable.clicked.connect(
-            self.window.show)  # Botão para criar
-        # a tabela
+        # Botão para ver dados
+        self.btnDados.clicked.connect(self.select_table)
+        
+        # Botão para abrir a janela de criação de tabelas
+        self.btnCriarTable.clicked.connect(self.window.show)  
+        
+        # Botão para criar a tabela
         self.window.btnCreate.clicked.connect(self.create_table)
+        
+        # Botão para fechar a tela que indica que foi criada a tabela
+        self.sucesso.btnSucesso.clicked.connect(self.sucesso.close)
 
     def abrir_db(self) -> None:
-        # Método para abrir o arquivo DB
+        '''Método para abrir o arquivo DB
+        
+        Esse método irá realizar a conexão com o computador para que indique
+        qual o arquivo dump que irá ser aberto para assim, poder visualizar
+        as tabelas, dados e realizar alterações'''
+        
         arquivo, _ = QFileDialog.getOpenFileName(
             self.centralwidget,
             'Abrir Arquivo',
@@ -59,6 +81,11 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         )
 
     def view_table(self):
+        '''Método para visualizar as tabelas do banco de dados
+        
+        Esse método irá (até o momento) visualizar as tabelas quando
+        o arquivo for selecionado'''
+        
         tables = []
         self.cursor.execute('SHOW tables')
         self.conexao.commit()
@@ -71,6 +98,14 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         return tables
 
     def view_data(self, tabela):
+        '''Método executar o comando de dados da tabela selecionada
+        
+        Esse método irá executar dentro de um botão, onde irá ser mostrado
+        os dados daquela tabela selecionada, por enquanto, não irá ser
+        mostrado tabelas que não possuem dados
+        
+        Esse método não é executado sozinho, mas com o método abaixo'''
+        
         self.cursor.execute(f'SELECT * FROM {tabela}')
         self.conexao.commit()
         resultados = self.cursor.fetchall()
@@ -83,6 +118,10 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         return final
 
     def select_table(self):
+        '''Método para mostrar os dados na tela
+        
+        Esse método, junto com o anterior, irão mostrar os dados na tela'''
+        
         try:
             tabela = self.listTables.selectedIndexes()[0]
             dados = self.view_data(tabela.data())
@@ -96,12 +135,40 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
             return
 
     def create_table(self):
+        '''Método para criar uma tabela
+        
+        Esse método irá ser executado ao clicar em um botão, onde irá ser
+        exibida uma nova janela com novas opções, onde você irá colocar:
+        o nome da tabela, as colunas e a chave primária
+        
+        OBS: Por enquanto a chave primária deve ser colocada sozinha, fora
+        do campo de colunas, onde também será necessário especificar qual
+        tipo de variável ela será'''
+        
         table_name = self.window.inputNameTable.text()
-        print(table_name)
-        # self.cursor.execute('CREATE TABLE {} ('
-        #     '{},'
-        #     '{}'
-        #     ')'.format())
+        table_property = self.window.inputNameColumn.toPlainText()
+        table_primary = self.window.inputPrimaryKey.text()
+        
+        try:
+            comando = ''
+            if self.window.boxAI.isChecked():
+                comando = (f'CREATE TABLE {table_name} ('
+                    f'{table_primary} PRIMARY KEY AUTO_INCREMENT, '
+                    f'{table_property}'
+                    f')'
+                    )
+            else:
+                comando = (f'CREATE TABLE {table_name} ('
+                    f'{table_primary} PRIMARY KEY, '
+                    f'{table_property}'
+                    f')'
+                    )
+
+            self.cursor.execute(comando)
+            self.conexao.commit()
+            self.sucesso.show()
+        except:
+            return
 
     def delete_table(self):
         ...
@@ -118,8 +185,7 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
 
 if __name__ == '__main__':
     qt = QApplication(sys.argv)
-    criar_tabela = CriarTabela()
-    app = Gerenciador('funcionarios', criar_tabela)
+    app = Gerenciador('funcionarios')
 
     app.show()
     qt.exec_()

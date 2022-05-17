@@ -310,7 +310,14 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="slideBoxTableDel"/>
+      <widget class="QLineEdit" name="inputIdDel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="btnDelValues">
