@@ -19,7 +19,7 @@ conhecimento = {
 }
 
 objetivos = {
-    'EI03EF01CRU': 'Expressar ideias, desejos e se     tntos sobre suas vivências, por meio da linguagem oral e escrita',
+    'EI03EF01CRU': 'Expressar ideias, desejos e sentimentos sobre suas vivências, por meio da linguagem oral e escrita',
     'EI03CG05CRU': 'Coordenar suas habilidades manuais no atendimento adequadro a seus interesses e necessidades',
     'EI03TS02CRU': 'Expressar-se livremente por meio de desenhos, pintura e colagem',
     'EI03ET07CRU': 'Relacionar números a suas respectivas quantidades',
@@ -37,6 +37,12 @@ objetivos = {
     'EI03ET04CRU': 'Registrar observações, manipulações e medidas, usando múltiplas linguagens (desenho, registro por números ou escrita espontânea)',
     'EI02CG05CRU': 'Coordenar suas habilidades manuais no atendimento adequado a seus interesses e necessidades em situações diversas',
     'EI03EF07CRU': 'Levantar hipóteses sobre gêneros textuais veiculados em portadores conhecidos recorrendo a estratégias de observação',
+    'EI03E002CRU': 'Agir de maneira independente, com confiança em suas capacidades, reconhecendo suas conquistas e limitações superando os desafios',
+    'EI03E006CRU': 'Manifestar interesse e respeito por diferentes culturas e modos de vida',
+    'EI03007CRU': 'Usar estratégias pautadas no respeito mútuo para lidar com os conflitos nas interações com crianças, jovens, adultos e idosos',
+    'EI03EF05CRU': 'Recontar e ilustrar histórias ouvidas para produção de reconto oral e escrito',
+    'EI03ET05CRU': 'Expressar medidas (peso, altura, etc) construindo gráficos básicos, incentivando as crianças a refletir sobre comparações e as relações de medidas',
+    'EI03EF09': 'Levantar hipóteses em relação à linguagem escrita, realizando registros de palavras e textos, a partir da exploração de diferentes materiais impressos de circulação social',
 }
 
 

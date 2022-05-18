@@ -7,5 +7,16 @@ Listando Seguidores Instagram/dados.txt
 /Gerador de Senhas em Python/password_gen.spec
 /Conversor_de_V/303/255deo/ffmpeg/ffmpeg.exe
 env_projetos
+/Gerenciador de Banco de Dados/login_erro.ui
+/Gerenciador de Banco de Dados/login.ui
+/Gerenciador de Banco de Dados/__pycache__/
+/Gerenciador de Banco de Dados/Login/__pycache__/
+/Gerenciador de Banco de Dados/Login/conexao_login/__pycache__/
+/Gerenciador de Banco de Dados/Login/design/__pycache__/
+/Gerenciador de Banco de Dados/Gerenciador/__pycache__/
+/Gerenciador de Banco de Dados/Gerenciador/data/__pycache__/
+/Gerenciador de Banco de Dados/Gerenciador/design/__pycache__/
+/Gerenciador de Banco de Dados/Gerenciador/conexao/__pycache__/
 /Criptografia
 README.md
+.gitignore

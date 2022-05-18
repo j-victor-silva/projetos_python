@@ -9,6 +9,7 @@ def copiar_conhecimento(dict, index):
     py.press('enter')
     with py.hold('ctrl'):
         py.press('v')
+        t.sleep(0.5)
         py.press('enter')
     t.sleep(0.5)
     py.press('enter')
@@ -66,3 +67,13 @@ def data(dia, mes, aula, quant):
         dia += 1
         aula += 1
         py.press('enter')
+        
+def formatar():
+    # Função para formatar as células 14x6
+    for i in range(14):
+        with py.hold('shift'): py.press('down')
+
+
+if __name__ == '__main__':
+    t.sleep(2)
+    formatar()

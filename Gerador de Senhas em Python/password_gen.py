@@ -35,29 +35,31 @@ def ler_escrever(arquivo, topico, user):
     
 
 # Loop para gerar quantas senhas o usuário precisar
-while True:
-    with open("senhas.txt", "a+") as file:
-        topico = input(('-' * 30) + '\nSite/Programa que a senha será gerada: ')
-        user = input(('-' * 30) + '\nUsuário/Email que vai receber a nova senha: ')
-        inp_senha = input(('-' * 30) + 
-            '\nDigite o tamanho que terá sua senha, caso não digite nada ou digite um valor '
-            'menor que 8 a senha terá um tamanho de 8 caracteres: ')
 
-        ler_escrever(file, topico, user)
-        
-        if inp_senha == "" or int(inp_senha) < 7:
-            file.write(f'\tSenha: {password()}\n\n')
+if __name__ == '__main__':
+    while True:
+        with open("senhas.txt", "a+") as file:
+            topico = input(('-' * 30) + '\nSite/Programa que a senha será gerada: ')
+            user = input(('-' * 30) + '\nUsuário/Email que vai receber a nova senha: ')
+            inp_senha = input(('-' * 30) + 
+                '\nDigite o tamanho que terá sua senha, caso não digite nada ou digite um valor '
+                'menor que 8 a senha terá um tamanho de 8 caracteres: ')
 
-        else:
-            file.write(f'\tSenha: {password(int(inp_senha))}\n\n')
+            ler_escrever(file, topico, user)
+            
+            if inp_senha == "" or int(inp_senha) < 7:
+                file.write(f'\tSenha: {password()}\n\n')
 
-        pula_linha('A senha foi criada, acesse o bloco de notas para visualizar '
-              'o que foi feito.')
-        
-        topico_continue = input(
-            '\nVocê deseja criar uma nova senha? Digite Sim ou Nao.\n\n->')
-        if topico_continue.lower() == 'sim':
-            continue
+            else:
+                file.write(f'\tSenha: {password(int(inp_senha))}\n\n')
 
-        else:
-            break
+            pula_linha('A senha foi criada, acesse o bloco de notas para visualizar '
+                'o que foi feito.')
+            
+            topico_continue = input(
+                '\nVocê deseja criar uma nova senha? Digite Sim ou Nao.\n\n->')
+            if topico_continue.lower() == 'sim':
+                continue
+
+            else:
+                break
