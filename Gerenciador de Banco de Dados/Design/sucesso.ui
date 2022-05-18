@@ -10,6 +10,18 @@
     <height>63</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>186</width>
+    <height>63</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>186</width>
+    <height>63</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Sucesso</string>
   </property>

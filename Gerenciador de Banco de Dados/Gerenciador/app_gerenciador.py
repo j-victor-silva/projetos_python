@@ -6,15 +6,22 @@ from pathlib import Path
 from data.data import *
 from design.criar_tabela import *
 from design.gerenciador import *
-from conexao.conexao import *
+import design.erro_tabela as erro
 import design.sucesso as sucesso
+from conexao.conexao import *
+
+
+class ErroTabela(QDialog, erro.Ui_Dialog):
+    def __init__(self, parent=None) -> None:
+        super().__init__(parent)
+        super().setupUi(self)
 
 
 class CriarTabela(QDialog, Ui_Dialog):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         super().setupUi(self)
-        
+
 
 class Sucesso(QDialog, sucesso.Ui_Sucesso):
     def __init__(self, parent=None) -> None:
@@ -35,32 +42,39 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         self.window = CriarTabela()
         # Janela que irá aparecer após criar a tabela com sucesso
         self.sucesso = Sucesso()
-
+        # Janela de erro ao não criar uma tabela com sucesso
+        self.erro = ErroTabela()
         # Por padrão o diretório que irá ser aberto é o do programa
-        self.FILE_DIR = Path(__file__).parent  
+        self.FILE_DIR = Path(__file__).parent
 
         # Botão para abrir a DB
-        self.btnAbrirDB.clicked.connect(self.abrir_db)  
+        self.btnAbrirDB.clicked.connect(self.abrir_db)
 
         # Botão para ver dados
         self.btnDados.clicked.connect(self.select_table)
-        
+
         # Botão para abrir a janela de criação de tabelas
-        self.btnCriarTable.clicked.connect(self.window.show)  
-        
+        self.btnCriarTable.clicked.connect(self.show_create_table)
+
         # Botão para criar a tabela
         self.window.btnCreate.clicked.connect(self.create_table)
-        
+
         # Botão para fechar a tela que indica que foi criada a tabela
         self.sucesso.btnSucesso.clicked.connect(self.sucesso.close)
 
+        # Botão para fechar janela de erro ao não criar uma tabela
+        self.erro.pushButton.clicked.connect(self.erro.close)
+
+        # Botão para deletar a tabela selecionada
+        self.btnDelTable.clicked.connect(self.delete_table)
+
     def abrir_db(self) -> None:
         '''Método para abrir o arquivo DB
-        
+
         Esse método irá realizar a conexão com o computador para que indique
         qual o arquivo dump que irá ser aberto para assim, poder visualizar
         as tabelas, dados e realizar alterações'''
-        
+
         arquivo, _ = QFileDialog.getOpenFileName(
             self.centralwidget,
             'Abrir Arquivo',
@@ -75,17 +89,15 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         self.inputDBName.setText(
             novo_arquivo
         )
+    
+        self.view_table()
 
-        self.listTables.addItems(
-            self.view_table()
-        )
-
-    def view_table(self):
+    def view_table(self) -> None:
         '''Método para visualizar as tabelas do banco de dados
-        
+
         Esse método irá (até o momento) visualizar as tabelas quando
         o arquivo for selecionado'''
-        
+
         tables = []
         self.cursor.execute('SHOW tables')
         self.conexao.commit()
@@ -95,17 +107,26 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
             for l in i:
                 tables.append(l)
 
-        return tables
-
-    def view_data(self, tabela):
-        '''Método executar o comando de dados da tabela selecionada
+        self.clear()
+        self.listTables.addItems(tables)
+    
+    def clear(self):
+        '''Método para limpar a lista de tabelas
         
+        Método que sempre que for inserida, deletada ou atualizado o banco
+        de dados, o método irá limpar as tabelas apresentadas com as novas'''
+        
+        self.listTables.clear()
+
+    def view_data(self, tabela) -> None:
+        '''Método executar o comando de dados da tabela selecionada
+
         Esse método irá executar dentro de um botão, onde irá ser mostrado
         os dados daquela tabela selecionada, por enquanto, não irá ser
         mostrado tabelas que não possuem dados
-        
+
         Esse método não é executado sozinho, mas com o método abaixo'''
-        
+
         self.cursor.execute(f'SELECT * FROM {tabela}')
         self.conexao.commit()
         resultados = self.cursor.fetchall()
@@ -117,11 +138,11 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
 
         return final
 
-    def select_table(self):
+    def select_table(self) -> None:
         '''Método para mostrar os dados na tela
-        
+
         Esse método, junto com o anterior, irão mostrar os dados na tela'''
-        
+
         try:
             tabela = self.listTables.selectedIndexes()[0]
             dados = self.view_data(tabela.data())
@@ -134,44 +155,65 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         except:
             return
 
-    def create_table(self):
+    def show_create_table(self) -> None:
+        '''Método para exibir a janela de criação de tabelas
+
+        Irá abrir a janela para criar tabelas, caso não tenha sido aberto
+        o arquivo dump, o programa não irá exibir nada'''
+
+        if not '.sql' in self.inputDBName.text():
+            return
+        self.window.show()
+
+    def create_table(self) -> None:
         '''Método para criar uma tabela
-        
+
         Esse método irá ser executado ao clicar em um botão, onde irá ser
         exibida uma nova janela com novas opções, onde você irá colocar:
         o nome da tabela, as colunas e a chave primária
-        
+
         OBS: Por enquanto a chave primária deve ser colocada sozinha, fora
         do campo de colunas, onde também será necessário especificar qual
         tipo de variável ela será'''
-        
+
         table_name = self.window.inputNameTable.text()
         table_property = self.window.inputNameColumn.toPlainText()
         table_primary = self.window.inputPrimaryKey.text()
-        
+
         try:
             comando = ''
             if self.window.boxAI.isChecked():
                 comando = (f'CREATE TABLE {table_name} ('
-                    f'{table_primary} PRIMARY KEY AUTO_INCREMENT, '
-                    f'{table_property}'
-                    f')'
-                    )
+                           f'{table_primary} PRIMARY KEY AUTO_INCREMENT, '
+                           f'{table_property}'
+                           f')'
+                           )
             else:
                 comando = (f'CREATE TABLE {table_name} ('
-                    f'{table_primary} PRIMARY KEY, '
-                    f'{table_property}'
-                    f')'
-                    )
+                           f'{table_primary} PRIMARY KEY, '
+                           f'{table_property}'
+                           f')'
+                           )
 
             self.cursor.execute(comando)
             self.conexao.commit()
             self.sucesso.show()
+
+            self.view_table()
         except:
-            return
+            self.erro.show()
 
     def delete_table(self):
-        ...
+        '''Método para deletar tabelas
+
+        Método que irá deletar a tabela selecionada'''
+
+        tabela = self.listTables.currentItem().text()
+
+        self.cursor.execute(f'DROP TABLE {tabela}')
+        self.conexao.commit()
+
+        self.view_table()
 
     def insert_data(self):
         ...
