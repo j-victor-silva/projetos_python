@@ -68,6 +68,8 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         # Botão para deletar a tabela selecionada
         self.btnDelTable.clicked.connect(self.delete_table)
 
+        self.btnInsertValues.clicked.connect(self.insert_data)
+
     def abrir_db(self) -> None:
         '''Método para abrir o arquivo DB
 
@@ -89,7 +91,7 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         self.inputDBName.setText(
             novo_arquivo
         )
-    
+
         self.view_table()
 
     def view_table(self) -> None:
@@ -109,13 +111,13 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
 
         self.clear()
         self.listTables.addItems(tables)
-    
+
     def clear(self):
         '''Método para limpar a lista de tabelas
-        
+
         Método que sempre que for inserida, deletada ou atualizado o banco
         de dados, o método irá limpar as tabelas apresentadas com as novas'''
-        
+
         self.listTables.clear()
 
     def view_data(self, tabela) -> None:
@@ -203,20 +205,32 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         except:
             self.erro.show()
 
-    def delete_table(self):
+    def delete_table(self) -> None:
         '''Método para deletar tabelas
 
         Método que irá deletar a tabela selecionada'''
+        try:
+            tabela = self.listTables.currentItem().text()
 
+            self.cursor.execute(f'DROP TABLE {tabela}')
+            self.conexao.commit()
+
+            self.view_table()
+        except:
+            return
+
+    def insert_data(self, tabela) -> None:
         tabela = self.listTables.currentItem().text()
+        self.cursor.execute(f'SELECT * FROM {tabela}')
 
-        self.cursor.execute(f'DROP TABLE {tabela}')
+        column = len(self.cursor.description)
+        default_values = '?, ' * column
+        dados = self.inputValuesInsert.text()
+        
+        comando = f'''INSERT INTO {tabela} VALUES ({default_values})'''
+        
+        self.cursor.execute(comando, dados)
         self.conexao.commit()
-
-        self.view_table()
-
-    def insert_data(self):
-        ...
 
     def alter_data(self):
         ...
