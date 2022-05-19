@@ -224,12 +224,11 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         self.cursor.execute(f'SELECT * FROM {tabela}')
 
         column = len(self.cursor.description)
-        default_values = '?, ' * column
         dados = self.inputValuesInsert.text()
-        
-        comando = f'''INSERT INTO {tabela} VALUES ({default_values})'''
-        
-        self.cursor.execute(comando, dados)
+
+        comando = f'''INSERT INTO {tabela} VALUES ({dados})'''
+
+        self.cursor.execute(comando)
         self.conexao.commit()
 
     def alter_data(self):
