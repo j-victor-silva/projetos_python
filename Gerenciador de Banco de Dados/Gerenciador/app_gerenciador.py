@@ -1,29 +1,44 @@
 import sys
 import os
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QDialog
+from PyQt5.QtWidgets import QHeaderView
 from typing import Type
 from pathlib import Path
 from data.data import *
-from design.criar_tabela import *
 from design.gerenciador import *
+from conexao.conexao import *
+import design.criar_tabela as c_tabela
 import design.erro_tabela as erro
 import design.sucesso as sucesso
-from conexao.conexao import *
+import design.erro_dados as e_dados
 
 
 class ErroTabela(QDialog, erro.Ui_Dialog):
+    '''Classe para criar a janela de erro na criação da tabela'''
+
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         super().setupUi(self)
 
 
-class CriarTabela(QDialog, Ui_Dialog):
+class CriarTabela(QDialog, c_tabela.Ui_Dialog):
+    '''Classe para criar a janela de criação de tabela'''
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         super().setupUi(self)
 
 
 class Sucesso(QDialog, sucesso.Ui_Sucesso):
+    '''Classe para criar a janela de sucesso na criação da tabela'''
+
+    def __init__(self, parent=None) -> None:
+        super().__init__(parent)
+        super().setupUi(self)
+
+
+class ErroDados(QDialog, e_dados.Ui_Dialog):
+    '''Classe para criar a janela de erro ao inserir dados'''
+
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         super().setupUi(self)
@@ -37,6 +52,7 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         super().setupUi(self)
         # Chamando a conexão com a database
         ConexaoDB.__init__(self, database, conexao)
+        
 
         # Será chamado a janela para criar a tabela
         self.window = CriarTabela()
@@ -44,8 +60,11 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         self.sucesso = Sucesso()
         # Janela de erro ao não criar uma tabela com sucesso
         self.erro = ErroTabela()
+        # Janela de erro ao não conseguir inserir dados
+        self.erro_dados = ErroDados()
         # Por padrão o diretório que irá ser aberto é o do programa
         self.FILE_DIR = Path(__file__).parent
+        
 
         # Botão para abrir a DB
         self.btnAbrirDB.clicked.connect(self.abrir_db)
@@ -68,7 +87,11 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         # Botão para deletar a tabela selecionada
         self.btnDelTable.clicked.connect(self.delete_table)
 
+        # Botão para inserir os dados
         self.btnInsertValues.clicked.connect(self.insert_data)
+        
+        # Botão para fechar a janela de erro ao inserir dados
+        self.erro_dados.pushButton.clicked.connect(self.erro_dados.close)
 
     def abrir_db(self) -> None:
         '''Método para abrir o arquivo DB
@@ -151,6 +174,7 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
 
             self.modelo = CustomTableModel(dados)
             self.dadosViewer.setModel(self.modelo)
+            self.dadosViewer.resizeColumnsToContents()
             self.dadosViewer.setStyleSheet(
                 'font-size: 11px;'
             )
@@ -220,16 +244,19 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
             return
 
     def insert_data(self, tabela) -> None:
-        tabela = self.listTables.currentItem().text()
-        self.cursor.execute(f'SELECT * FROM {tabela}')
+        try:
+            tabela = self.listTables.currentItem().text()
+            self.cursor.execute(f'SELECT * FROM {tabela}')
 
-        column = len(self.cursor.description)
-        dados = self.inputValuesInsert.text()
+            column = len(self.cursor.description)
+            dados = self.inputValuesInsert.text()
 
-        comando = f'''INSERT INTO {tabela} VALUES ({dados})'''
+            comando = f'''INSERT INTO {tabela} VALUES ({dados})'''
 
-        self.cursor.execute(comando)
-        self.conexao.commit()
+            self.cursor.execute(comando)
+            self.conexao.commit()
+        except:
+            self.erro_dados.show()
 
     def alter_data(self):
         ...
