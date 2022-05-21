@@ -5,58 +5,14 @@ from pathlib import Path
 from data.data import *
 from design.gerenciador import *
 from conexao.conexao import *
+from erros.erros import *
 import design.criar_tabela as c_tabela
-import design.erro_tabela as erro
-import design.sucesso as sucesso
-import design.erro_dados as e_dados
-import design.erro_alterar_valores as e_alterar
-import design.erro_del as e_del
-
-
-class ErroTabela(QDialog, erro.Ui_Dialog):
-    '''Classe para criar a janela de erro na criação da tabela'''
-
-    def __init__(self, parent=None) -> None:
-        super().__init__(parent)
-        super().setupUi(self)
 
 
 class CriarTabela(QDialog, c_tabela.Ui_Dialog):
     '''Classe para criar a janela de criação de tabela'''
 
     def __init__(self, parent=None) -> None:
-        super().__init__(parent)
-        super().setupUi(self)
-
-
-class Sucesso(QDialog, sucesso.Ui_Sucesso):
-    '''Classe para criar a janela de sucesso na criação da tabela'''
-
-    def __init__(self, parent=None) -> None:
-        super().__init__(parent)
-        super().setupUi(self)
-
-
-class ErroDados(QDialog, e_dados.Ui_Dialog):
-    '''Classe para criar a janela de erro ao inserir dados'''
-
-    def __init__(self, parent=None) -> None:
-        super().__init__(parent)
-        super().setupUi(self)
-
-
-class ErroAlterarValores(QDialog, e_alterar.Ui_Dialog):
-    '''Classe para criar janela de erro ao editar valores'''
-
-    def __init__(self, parent=None) -> None:
-        super().__init__(parent)
-        super().setupUi(self)
-
-
-class ErroDel(QDialog, e_del.Ui_Dialog):
-    '''Classe para criar janela de erro ao deletar valores'''
-
-    def __init__(self, parent=None):
         super().__init__(parent)
         super().setupUi(self)
 
@@ -72,6 +28,8 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
 
         # Será chamado a janela para criar a tabela
         self.window = CriarTabela()
+        # Janela de erro ao encontrar Database
+        self.erro_db = ErroDatabase()
         # Janela que irá aparecer após criar a tabela
         self.sucesso = Sucesso()
         # Janela de erro ao criar uma tabela
@@ -87,6 +45,9 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
 
         # Botão para abrir a DB
         self.btnAbrirDB.clicked.connect(self.abrir_db)
+        
+        # Botão para fechar o erro ao encontrar Database
+        self.erro_db.pushButton.clicked.connect(self.erro_db.close)
 
         # Botão para ver dados
         self.btnDados.clicked.connect(self.select_table)
@@ -127,26 +88,19 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
     def abrir_db(self) -> None:
         '''Método para abrir o arquivo DB
 
-        Esse método irá realizar a conexão com o computador para que indique
-        qual o arquivo dump que irá ser aberto para assim, poder visualizar
+        Esse método irá realizar a conexão a database digitada para visualizar
         as tabelas, dados e realizar alterações'''
 
-        arquivo, _ = QFileDialog.getOpenFileName(
-            self.centralwidget,
-            'Abrir Arquivo',
-            f'{self.FILE_DIR}'
-        )
+        try:
+            database = self.inputDBName.text()
+            comando = f'USE {database}'
+            
+            self.cursor.execute(comando)
+            self.conexao.commit()
 
-        _, novo_arquivo = os.path.split(arquivo)
-
-        if not '.sql' in novo_arquivo:
-            return
-
-        self.inputDBName.setText(
-            novo_arquivo
-        )
-
-        self.view_table()
+            self.view_table()
+        except:
+            self.erro_db.show()
 
     def view_table(self) -> None:
         '''Método para visualizar as tabelas do banco de dados
@@ -215,8 +169,8 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
     def show_create_table(self) -> None:
         '''Método para exibir a janela de criação de tabelas
 
-        Irá abrir a janela para criar tabelas, caso não tenha sido aberto
-        o arquivo dump, o programa não irá exibir nada'''
+        Irá abrir a janela para criar tabelas, caso não tenha encontrado
+        nenhuma database, o programa não irá exibir nada'''
 
         if not '.sql' in self.inputDBName.text():
             return

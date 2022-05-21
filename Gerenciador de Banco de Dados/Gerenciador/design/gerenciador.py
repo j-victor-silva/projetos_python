@@ -74,7 +74,7 @@ class Ui_MainWindow(object):
         self.gridLayout_3.setHorizontalSpacing(1)
         self.gridLayout_3.setObjectName("gridLayout_3")
         self.inputDBName = QtWidgets.QLineEdit(self.horizontalLayoutWidget)
-        self.inputDBName.setReadOnly(True)
+        self.inputDBName.setReadOnly(False)
         self.inputDBName.setObjectName("inputDBName")
         self.gridLayout_3.addWidget(self.inputDBName, 0, 0, 1, 1)
         self.btnAbrirDB = QtWidgets.QPushButton(self.horizontalLayoutWidget)
