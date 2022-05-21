@@ -1,8 +1,6 @@
 import sys
 import os
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QDialog
-from PyQt5.QtWidgets import QHeaderView
-from typing import Type
 from pathlib import Path
 from data.data import *
 from design.gerenciador import *
@@ -11,6 +9,7 @@ import design.criar_tabela as c_tabela
 import design.erro_tabela as erro
 import design.sucesso as sucesso
 import design.erro_dados as e_dados
+import design.erro_alterar_valores as e_alterar
 
 
 class ErroTabela(QDialog, erro.Ui_Dialog):
@@ -23,6 +22,7 @@ class ErroTabela(QDialog, erro.Ui_Dialog):
 
 class CriarTabela(QDialog, c_tabela.Ui_Dialog):
     '''Classe para criar a janela de criação de tabela'''
+
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         super().setupUi(self)
@@ -44,6 +44,14 @@ class ErroDados(QDialog, e_dados.Ui_Dialog):
         super().setupUi(self)
 
 
+class ErroAlterarValores(QDialog, e_alterar.Ui_Dialog):
+    '''Classe para criar janela de erro ao editar valores'''
+
+    def __init__(self, parent=None) -> None:
+        super().__init__(parent)
+        super().setupUi(self)
+
+
 class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
     def __init__(self, database: str,
                  conexao: str = '127.0.0.1', parent=None) -> None:
@@ -52,19 +60,19 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         super().setupUi(self)
         # Chamando a conexão com a database
         ConexaoDB.__init__(self, database, conexao)
-        
 
         # Será chamado a janela para criar a tabela
         self.window = CriarTabela()
-        # Janela que irá aparecer após criar a tabela com sucesso
+        # Janela que irá aparecer após criar a tabela
         self.sucesso = Sucesso()
-        # Janela de erro ao não criar uma tabela com sucesso
+        # Janela de erro ao criar uma tabela
         self.erro = ErroTabela()
-        # Janela de erro ao não conseguir inserir dados
+        # Janela de erro ao inserir dados
         self.erro_dados = ErroDados()
+        # Janela de erro ao editar valores
+        self.erro_alterar = ErroAlterarValores()
         # Por padrão o diretório que irá ser aberto é o do programa
         self.FILE_DIR = Path(__file__).parent
-        
 
         # Botão para abrir a DB
         self.btnAbrirDB.clicked.connect(self.abrir_db)
@@ -89,9 +97,15 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
 
         # Botão para inserir os dados
         self.btnInsertValues.clicked.connect(self.insert_data)
-        
+
         # Botão para fechar a janela de erro ao inserir dados
         self.erro_dados.pushButton.clicked.connect(self.erro_dados.close)
+
+        # Botão para alterar valores
+        self.btnUpdateValues.clicked.connect(self.alter_data)
+        
+        # Botão para fechar o erro de alteração de valores
+        self.erro_alterar.pushButton.clicked.connect(self.erro_alterar.close)
 
     def abrir_db(self) -> None:
         '''Método para abrir o arquivo DB
@@ -244,6 +258,12 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
             return
 
     def insert_data(self, tabela) -> None:
+        '''Método para adicionar valores na tabela
+
+        Esse método irá adicionar os valores na tabela selecionada,
+        caso a ordem dos valores esteja incorreta, irá apresentar uma
+        mensagem de erro'''
+
         try:
             tabela = self.listTables.currentItem().text()
             self.cursor.execute(f'SELECT * FROM {tabela}')
@@ -258,8 +278,30 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         except:
             self.erro_dados.show()
 
-    def alter_data(self):
-        ...
+    def alter_data(self) -> None:
+        try:
+            tabela = self.listTables.currentItem().text()
+
+            values = self.inputUpdateValues.text()
+
+            primary_key_value = self.inputPrimaryKey.text()
+
+            sqlStatement = f'SHOW keys FROM {tabela} WHERE Key_name = "PRIMARY"'
+            self.cursor.execute(sqlStatement)
+            self.conexao.commit()
+
+            resultados = self.cursor.fetchall()
+
+            primary_key = ()
+            for resultado in resultados:
+                primary_key = resultado
+
+            command_alter_data = f'UPDATE {tabela} SET {values} WHERE {primary_key[4]} = {primary_key_value}'
+
+            self.cursor.execute(command_alter_data)
+            self.conexao.commit()
+        except:
+            self.erro_alterar.show()
 
     def delete_data(self):
         ...

@@ -81,23 +81,13 @@
     <property name="geometry">
      <rect>
       <x>260</x>
-      <y>110</y>
+      <y>142</y>
       <width>91</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
      <string>Atualizar Valores:</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="slideBoxUpdate">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>130</y>
-      <width>91</width>
-      <height>21</height>
-     </rect>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
@@ -250,6 +240,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="btnInsertValues">
+       <property name="maximumSize">
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>Inserir</string>
        </property>
@@ -268,9 +264,39 @@
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>Primary Key</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="inputPrimaryKey">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>Valores</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QLineEdit" name="inputUpdateValues">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -279,6 +305,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="btnUpdateValues">
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>Atualizar</string>
        </property>
@@ -310,7 +342,14 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="slideBoxIdDel"/>
+      <widget class="QLineEdit" name="lineEdit_2">
+       <property name="maximumSize">
+        <size>
+         <width>200</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QLabel" name="label_6">
@@ -333,6 +372,12 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>16777215</height>
+        </size>
+       </property>
       </widget>
      </item>
      <item>
@@ -342,6 +387,12 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>16777215</height>
+        </size>
        </property>
        <property name="text">
         <string>Apagar</string>
@@ -365,6 +416,12 @@
      </property>
      <item row="0" column="2">
       <widget class="QPushButton" name="btnDados">
+       <property name="maximumSize">
+        <size>
+         <width>70</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>Visualizar</string>
        </property>
