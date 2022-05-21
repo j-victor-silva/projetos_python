@@ -323,34 +323,11 @@
      <rect>
       <x>260</x>
       <y>260</y>
-      <width>371</width>
+      <width>171</width>
       <height>25</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_5">
-     <item>
-      <widget class="QLabel" name="label_5">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Tabela:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit_2">
-       <property name="maximumSize">
-        <size>
-         <width>200</width>
-         <height>16777215</height>
-        </size>
-       </property>
-      </widget>
-     </item>
      <item>
       <widget class="QLabel" name="label_6">
        <property name="sizePolicy">
@@ -360,7 +337,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>ID:</string>
+        <string>Primary Key:</string>
        </property>
       </widget>
      </item>

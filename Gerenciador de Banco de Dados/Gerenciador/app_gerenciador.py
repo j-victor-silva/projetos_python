@@ -10,6 +10,7 @@ import design.erro_tabela as erro
 import design.sucesso as sucesso
 import design.erro_dados as e_dados
 import design.erro_alterar_valores as e_alterar
+import design.erro_del as e_del
 
 
 class ErroTabela(QDialog, erro.Ui_Dialog):
@@ -52,6 +53,14 @@ class ErroAlterarValores(QDialog, e_alterar.Ui_Dialog):
         super().setupUi(self)
 
 
+class ErroDel(QDialog, e_del.Ui_Dialog):
+    '''Classe para criar janela de erro ao deletar valores'''
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        super().setupUi(self)
+
+
 class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
     def __init__(self, database: str,
                  conexao: str = '127.0.0.1', parent=None) -> None:
@@ -71,6 +80,8 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         self.erro_dados = ErroDados()
         # Janela de erro ao editar valores
         self.erro_alterar = ErroAlterarValores()
+        # Janela de erro ao deletar valores
+        self.erro_del = ErroDel()
         # Por padrão o diretório que irá ser aberto é o do programa
         self.FILE_DIR = Path(__file__).parent
 
@@ -103,9 +114,15 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
 
         # Botão para alterar valores
         self.btnUpdateValues.clicked.connect(self.alter_data)
-        
+
         # Botão para fechar o erro de alteração de valores
         self.erro_alterar.pushButton.clicked.connect(self.erro_alterar.close)
+
+        # Botão para deletar valores
+        self.btnDelValues.clicked.connect(self.delete_data)
+        
+        # Botão para fechar janela de erro ao deletar valores
+        self.erro_del.pushButton.clicked.connect(self.erro_del.close)
 
     def abrir_db(self) -> None:
         '''Método para abrir o arquivo DB
@@ -279,6 +296,9 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
             self.erro_dados.show()
 
     def alter_data(self) -> None:
+        '''Método para alterar valores
+        
+        Esse método irá alterar valores onde indicada a primary key'''
         try:
             tabela = self.listTables.currentItem().text()
 
@@ -303,9 +323,34 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         except:
             self.erro_alterar.show()
 
-    def delete_data(self):
-        ...
+    def delete_data(self) -> None:
+        '''Método para deletar valores
 
+        Esse método irá deletar valores, dependendo de qual primary key
+        foi dada'''
+
+        try:
+            tabela = self.listTables.currentItem().text()
+
+            value = self.inputIdDel.text()
+
+            sqlStatement = f'SHOW keys FROM {tabela} WHERE Key_name = "PRIMARY"'
+            self.cursor.execute(sqlStatement)
+            self.conexao.commit()
+
+            resultados = self.cursor.fetchall()
+
+            primary_key = ()
+            for resultado in resultados:
+                primary_key = resultado
+
+            command_del_value = f'DELETE FROM {tabela} WHERE {primary_key[4]} = {value}'
+
+            self.cursor.execute(command_del_value)
+            self.conexao.commit()
+        except:
+            self.erro_del.show()    
+        
 
 if __name__ == '__main__':
     qt = QApplication(sys.argv)
