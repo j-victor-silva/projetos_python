@@ -1,31 +1,42 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
-from design.login import *
-from design.login_erro import *
-from typing import Type
-from conexao_login.conexao_login import *
+from Login.design.login import *
+from Login.design.login_erro import *
+from Login.conexao_login.conexao_login import *
 
 
 class LoginError(QDialog, Ui_Dialog):
+    '''Classe que irá criar a mensagem de erro ao não fazer login'''
+    
     def __init__(self, parent=None):
         super().__init__(parent)
         super().setupUi(self)
 
-        self.btnErro.clicked.connect(self.close)
-
 
 class LoginWindow(QMainWindow, Ui_MainWindow, Conexao):
-    def __init__(self, database: str, error: Type[LoginError],
+    def __init__(self, database: str,
                  conexao: str = '127.0.0.1', parent=None) -> None:
         super().__init__(parent)
         super().setupUi(self)
         # Inicializador da classe Conexao
         Conexao.__init__(self, database, conexao)
+        self.valido = False
 
-        self.error = error  # Instancia que irá chamar a DialogBox de erro
-        self.btnEntrar.clicked.connect(self.autenticar)
+        # Instancia que irá chamar a DialogBox de erro
+        self.error = LoginError()
+        
+        # Botão para logar
+        # self.btnEntrar.clicked.connect(self.autenticar)
+        
+        # Botão para fechar erro de login
+        self.error.btnErro.clicked.connect(self.error.close)
 
     def autenticar(self):
+        '''Método de autenticação
+        
+        Irá verificar na base de dados se o usuário e a senha correspondem
+        para assim, logar'''
+        
         index = 0
         while True:
             self.dados('usuariosroot')
@@ -37,17 +48,18 @@ class LoginWindow(QMainWindow, Ui_MainWindow, Conexao):
                     index += 1
 
                 if user == self.listagem[index]['usuario'] and password == self.listagem[index]['senha']:
-                    return True
+                    self.valido = True
+                    return
 
             except IndexError as e:
+                self.valido = False
                 self.error.show()
                 return
 
 
 if __name__ == '__main__':
     qt = QApplication(sys.argv)
-    error = LoginError()
-    app = LoginWindow('usuarios', error)
+    app = LoginWindow('usuarios')
 
     app.show()
     qt.exec_()

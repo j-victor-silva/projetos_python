@@ -1,11 +1,11 @@
 import sys
 import os
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
 from pathlib import Path
-from data.data import *
-from design.gerenciador import *
-from conexao.conexao import *
-from erros.erros import *
+from Gerenciador.data import data
+from Gerenciador.design.gerenciador import *
+from Gerenciador.conexao.conexao import *
+from Gerenciador.erros.erros import *
 import design.criar_tabela as c_tabela
 
 
@@ -18,7 +18,7 @@ class CriarTabela(QDialog, c_tabela.Ui_Dialog):
 
 
 class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
-    def __init__(self, database: str,
+    def __init__(self, database: str=None,
                  conexao: str = '127.0.0.1', parent=None) -> None:
         # Conectando a tela do programa
         super().__init__(parent)
@@ -162,7 +162,7 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
             tabela = self.listTables.selectedIndexes()[0]
             dados = self.view_data(tabela.data())
 
-            self.modelo = CustomTableModel(dados)
+            self.modelo = data.CustomTableModel(dados)
             self.dadosViewer.setModel(self.modelo)
             self.dadosViewer.resizeColumnsToContents()
             self.dadosViewer.setStyleSheet(
@@ -313,7 +313,7 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
 
 if __name__ == '__main__':
     qt = QApplication(sys.argv)
-    app = Gerenciador('funcionarios')
+    app = Gerenciador()
 
     app.show()
     qt.exec_()
