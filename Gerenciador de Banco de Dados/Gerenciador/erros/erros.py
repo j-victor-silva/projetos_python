@@ -11,7 +11,7 @@ import design.erro_db as e_db
 from PyQt5.QtWidgets import QDialog
 
 
-class ErroDatabase(QDialog, e_table.Ui_Dialog):
+class ErroDatabase(QDialog, e_db.Ui_Dialog):
     '''Classe para criar janela de erro ao selecionar database'''
 
     def __init__(self, parent=None) -> None:

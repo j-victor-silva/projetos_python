@@ -42,6 +42,8 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         self.erro_del = ErroDel()
         # Por padrão o diretório que irá ser aberto é o do programa
         self.FILE_DIR = Path(__file__).parent
+        # Indicador de que foi aberto uma Database
+        self.valido = False
 
         # Botão para abrir a DB
         self.btnAbrirDB.clicked.connect(self.abrir_db)
@@ -99,8 +101,11 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
             self.conexao.commit()
 
             self.view_table()
+            
+            self.valido = True
         except:
             self.erro_db.show()
+            self.valido = False
 
     def view_table(self) -> None:
         '''Método para visualizar as tabelas do banco de dados
@@ -172,7 +177,7 @@ class Gerenciador(QMainWindow, Ui_MainWindow, ConexaoDB):
         Irá abrir a janela para criar tabelas, caso não tenha encontrado
         nenhuma database, o programa não irá exibir nada'''
 
-        if not '.sql' in self.inputDBName.text():
+        if not self.valido:
             return
         self.window.show()
 
