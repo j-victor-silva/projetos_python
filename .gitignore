@@ -19,5 +19,6 @@ venv
 /Gerenciador de Banco de Dados/Gerenciador/conexao/__pycache__/
 /Gerenciador de Banco de Dados/Gerenciador/erros/__pycache__/
 /Criptografia
+treino.txt
 README.md
 .gitignore

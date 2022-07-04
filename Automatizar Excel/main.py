@@ -51,51 +51,55 @@ def pula_linha():
 
 
 while True:
-    print('\nDigite qual função você deseja executar:')
-    escolha = input(f'\t1- Colar conhecimento;\n\t2- Colar objetivos;\n\t'
-                    f'3- Colocar asteríscos;\n\t4- Colocar data e aula.\n\t->')
+    try:
+        print('\nDigite qual função você deseja executar:')
+        escolha = input(f'\t1- Colar conhecimento;\n\t2- Colar objetivos;\n\t'
+                        f'3- Colocar asteríscos;\n\t4- Colocar data e aula.\n\t->')
 
-    pula_linha()
+        pula_linha()
 
-    if escolha == '1':
-        conhecimento_formatado = ''
-        for x, y in conhecimento.items():
-            conhecimento_formatado += f'{x}:{y}\n'
+        if escolha == '1':
+            conhecimento_formatado = ''
+            for x, y in conhecimento.items():
+                conhecimento_formatado += f'{x}:{y}\n'
 
-        escolha = input(
-            f'Aqui está a lista de conhecimentos:\n\n{conhecimento_formatado}\n->')
-        py.hotkey('alt', 'tab')
-        t.sleep(0.1)
-        func.copiar_conhecimento(conhecimento, int(escolha))
+            escolha = input(
+                f'Aqui está a lista de conhecimentos:\n\n{conhecimento_formatado}\n->')
+            py.hotkey('alt', 'tab')
+            t.sleep(0.1)
+            func.copiar_conhecimento(conhecimento, int(escolha))
 
-    elif escolha == '2':
-        objetivos_formatados = ''
-        for x, y in objetivos.items():
-            objetivos_formatados += f'{x}:{y}\n\n'
+        elif escolha == '2':
+            objetivos_formatados = ''
+            for x, y in objetivos.items():
+                objetivos_formatados += f'{x}:{y}\n\n'
 
-        escolha = input(
-            f'Aqui está a lista de objetivos:\n\n{objetivos_formatados}\n->')
-        py.hotkey('alt', 'tab')
-        t.sleep(0.1)
-        func.copiar_objetivo(objetivos, escolha)
+            escolha = input(
+                f'Aqui está a lista de objetivos:\n\n{objetivos_formatados}\n->')
+            py.hotkey('alt', 'tab')
+            t.sleep(0.1)
+            func.copiar_objetivo(objetivos, escolha)
 
-    elif escolha == '3':
-        escolha = input(
-            'Digite a quandidade de asteríscos que deseja colocar: ')
-        py.hotkey('alt', 'tab')
-        t.sleep(0.1)
-        func.colar_asterisco(int(escolha))
+        elif escolha == '3':
+            escolha = input(
+                'Digite a quandidade de asteríscos que deseja colocar: ')
+            py.hotkey('alt', 'tab')
+            t.sleep(0.1)
+            func.colar_asterisco(int(escolha))
 
-    elif escolha == '4':
-        dia = input('Digite o dia: ')
-        mes = input('Digite o mês: ')
-        aula = input('Digite a aula: ')
-        quantidade = input('Digite a quantidade de repetições: ')
-        py.hotkey('alt', 'tab')
-        t.sleep(0.1)
-        func.data(int(dia), int(mes), int(aula), int(quantidade))
+        elif escolha == '4':
+            dia = input('Digite o dia: ')
+            mes = input('Digite o mês: ')
+            aula = input('Digite a aula: ')
+            quantidade = input('Digite a quantidade de repetições: ')
+            py.hotkey('alt', 'tab')
+            t.sleep(0.1)
+            func.data(int(dia), int(mes), int(aula), int(quantidade))
 
-    else:
-        print('Você precisa digitar uma opção válida.')
-        t.sleep(1)
+        else:
+            print('Você precisa digitar uma opção válida.')
+            t.sleep(1)
+            continue
+    except:
         continue
+    
