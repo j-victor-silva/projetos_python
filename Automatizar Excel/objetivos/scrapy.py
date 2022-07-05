@@ -1,7 +1,6 @@
 import json
 import requests
 import re
-from pprint import pprint
 from bs4 import BeautifulSoup
 
 
@@ -41,7 +40,8 @@ def get_objectives(URL: str):
     filter_objective = dict_converter(filter_objective)
     
     with open('objectives.json', 'w') as file:
-        json.dump(filter_objective, file)
+        json.dump(filter_objective, file, indent=4)
 
 
-get_objectives('https://www.tudosaladeaula.com/2020/08/habilidades-bncc-educacao-infantil-pre.html')
+if __name__ == '__main__':
+    get_objectives('https://www.tudosaladeaula.com/2020/08/habilidades-bncc-educacao-infantil-pre.html')
