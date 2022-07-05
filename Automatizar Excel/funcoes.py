@@ -4,6 +4,20 @@ import pyperclip as pyper
 import time as t
 
 
+def ajuste_centralizar(mode=0):
+    # Ajuste e centralização
+    with py.hold('alt'):
+        py.press('h')
+        py.press('w')
+    py.hotkey('ctrl', 'shift', 'e')
+    t.sleep(0.1)
+    if not mode == 0:
+        kb.send('enter')
+        kb.send('enter')
+    else:
+        kb.send('tab')
+        
+
 def copiar_conhecimento(dict, lista):
     """Função para copiar o campo de conhecimento"""
     counter = 1
@@ -12,10 +26,9 @@ def copiar_conhecimento(dict, lista):
     
     for i in lista:
         try:
-            pyper.copy(dict[int(i)])
+            py.write(dict[int(i)])
             
             with py.hold('ctrl'):
-                py.press('v')
                 t.sleep(0.3)
                 if len(lista) == 1 or counter == len(lista):
                     break
@@ -25,17 +38,11 @@ def copiar_conhecimento(dict, lista):
         except:
             continue
         
-    # Ajuste e centralização
-    with py.hold('alt'):
-        py.press('h')
-        py.press('w')
-    py.hotkey('ctrl', 'shift', 'e')
-    t.sleep(0.1)
-    kb.send('tab')
+    ajuste_centralizar()
 
 
-def copiar_objetivo(dict, key_list, chave=''):
-    """Função para copiar o objetivo(ID) e sua descrição"""
+def copiar_objetivo(dict, key_list):
+    """Função para copiar o objetivo(ID) e sua descrição"""       
     counter = 1
     py.hotkey('alt', 'tab')
     py.press('enter')
@@ -52,22 +59,27 @@ def copiar_objetivo(dict, key_list, chave=''):
         with py.hold('ctrl'):
             t.sleep(0.4)
             py.press('enter')
+            
+            if counter >= 2:
+                py.press('v')
+                if len(key_list) == 1 or counter == len(key_list):
+                    break
+                py.press('enter')
+                py.press('enter')
+                
+            py.press('enter')
             t.sleep(0.4)
             py.press('v')
+            
             if len(key_list) == 1 or counter == len(key_list):
                 break
-            py.hotkey('enter')
-            py.hotkey('enter')
+            
+            py.press('enter')
+            py.press('enter')
         
         counter += 1
     
-    # Ajuste e centralização
-    with py.hold('alt'):
-        py.press('h')
-        py.press('w')
-    py.hotkey('ctrl', 'shift', 'e')
-    t.sleep(0.1)
-    kb.send('tab')
+    ajuste_centralizar()
 
 
 def colar_asterisco(quant):
@@ -83,13 +95,7 @@ def colar_asterisco(quant):
             break
         py.hotkey('ctrl', 'enter')
     
-    # Ajuste e centralização
-    with py.hold('alt'):
-        py.press('h')
-        py.press('w')
-    py.hotkey('ctrl', 'shift', 'e')
-    t.sleep(0.1)
-    kb.send('tab')
+    ajuste_centralizar()
 
 
 def data(dia, mes, aula, quant):
@@ -109,14 +115,7 @@ def data(dia, mes, aula, quant):
         dia += 1
         aula += 1
         
-        # Ajuste e centralização
-        with py.hold('alt'):
-            py.press('h')
-            py.press('w')
-        py.hotkey('ctrl', 'shift', 'e')
-        t.sleep(0.1)
-        kb.send('enter')
-        kb.send('enter')
+    ajuste_centralizar(mode=1)
         
 
 if __name__ == '__main__':

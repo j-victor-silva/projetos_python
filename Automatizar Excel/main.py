@@ -4,7 +4,6 @@ para o Excel, já que eu fazia muitas coisas usando ele
 O programa vai basicamente copiar coisas que são muito usadas para as células do Excel
 """
 import funcoes as func
-import pyautogui as py
 import time as t
 import json
 from pathlib import Path
@@ -12,11 +11,11 @@ from pathlib import Path
 
 DIRECTORY = Path(__file__).parent
 conhecimento = {
-    1: 'O Eu, O Outro e O Nós',
-    2: 'Escuta, fala, pensamento e imaginação',
+    1: 'O Eu, O Outro e O Nos',
+    2: 'Escuta, fala, pensamento e imaginacao',
     3: 'Corpo, gestos e movimentos',
     4: 'Traços, sons, cores e formas',
-    5: 'Espaços, tempos, quantidades, relações e tranformações',
+    5: 'Espacos, tempos, quantidades, relações e tranformacoes',
 }
 objetivos = DIRECTORY / 'objectives.json'
 
