@@ -10,7 +10,7 @@ def ajuste_centralizar(mode=0):
         py.press('h')
         py.press('w')
     py.hotkey('ctrl', 'shift', 'e')
-    t.sleep(0.1)
+    t.sleep(0.4)
     if not mode == 0:
         kb.send('enter')
         kb.send('enter')
@@ -115,7 +115,7 @@ def data(dia, mes, aula, quant):
         dia += 1
         aula += 1
         
-    ajuste_centralizar(mode=1)
+        ajuste_centralizar(mode=1)
         
 
 if __name__ == '__main__':
