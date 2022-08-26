@@ -1,5 +1,5 @@
 # Projetos em Python
-## Projetos pessoais - João Victor
+## Projetos pessoais
 
 Aqui estão meus projetos pessoais na linguagem Python, usando bibliotecas variadas, POO, etc.
 
