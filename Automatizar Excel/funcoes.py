@@ -1,3 +1,5 @@
+# coding: utf-8
+
 import pyautogui as py
 import keyboard as kb
 import pyperclip as pyper
@@ -6,9 +8,9 @@ import time as t
 
 def ajuste_centralizar(mode=0):
     # Ajuste e centralização
-    with py.hold('alt'):
-        py.press('h')
-        py.press('w')
+    kb.press_and_release('alt+h')
+    t.sleep(0.3)
+    py.press('w')
     py.hotkey('ctrl', 'shift', 'e')
     t.sleep(0.4)
     if not mode == 0:
@@ -26,13 +28,11 @@ def copiar_conhecimento(dict, lista):
     
     for i in lista:
         try:
-            py.write(dict[int(i)])
+            kb.write(dict[int(i)])
             
-            with py.hold('ctrl'):
-                t.sleep(0.3)
-                if len(lista) == 1 or counter == len(lista):
-                    break
-                py.press('enter')
+            if len(lista) == 1 or counter == len(lista):
+                break
+            kb.press_and_release('ctrl+enter')
                 
             counter += 1       
         except:
@@ -42,40 +42,24 @@ def copiar_conhecimento(dict, lista):
 
 
 def copiar_objetivo(dict, key_list):
-    """Função para copiar o objetivo(ID) e sua descrição"""       
+    """Função para copiar o objetivo(ID) e sua descrição"""
     counter = 1
     py.hotkey('alt', 'tab')
     py.press('enter')
     
     for i in key_list:
-        pyper.copy(i)
-        t.sleep(0.4)
+        # Irá escrever o código do objetivo
+        kb.write(i)
+        kb.press_and_release('ctrl+enter, ctrl+enter')
         
-        # Colando o código
-        py.hotkey('ctrl', 'v')
-        pyper.copy(f'{dict[i]}')        
+        # Irá escrever o objetivo
+        kb.write(dict[i])
+        t.sleep(1)
         
-        # Colando a descrição
-        with py.hold('ctrl'):
-            t.sleep(0.4)
-            py.press('enter')
-            
-            if counter >= 2:
-                py.press('v')
-                if len(key_list) == 1 or counter == len(key_list):
-                    break
-                py.press('enter')
-                py.press('enter')
-                
-            py.press('enter')
-            t.sleep(0.4)
-            py.press('v')
-            
-            if len(key_list) == 1 or counter == len(key_list):
+        if len(key_list) > 1:
+            if counter == len(key_list):
                 break
-            
-            py.press('enter')
-            py.press('enter')
+            kb.press_and_release('ctrl+enter, ctrl+enter')
         
         counter += 1
     
@@ -91,9 +75,9 @@ def colar_asterisco(quant):
     
     for i in range(quant):
         py.write('*')
-        if (i+1) == quant:
-            break
         py.hotkey('ctrl', 'enter')
+        if (i) == quant:
+            break
     
     ajuste_centralizar()
 
@@ -105,17 +89,30 @@ def data(dia, mes, aula, quant):
     py.press('enter')
     
     for i in range(quant):
-        py.write(f'{dia}/{mes}')   
+        if dia < 10:
+            if mes < 10:
+                py.write(f'0{dia}/0{mes}')
+            else:
+                py.write(f'0{dia}/{mes}')
+        elif dia > 10:
+            if mes < 10:
+                py.write(f'{dia}/0{mes}')
+            else:
+                py.write(f'{dia}/{mes}')
+           
         t.sleep(0.3)
         py.hotkey('ctrl', 'enter')
         t.sleep(0.1)
         
-        py.write(f'Aula {aula}')
+        if aula < 10:
+            py.write(f'Aula 0{aula}')
+        else:
+            py.write(f'Aula {aula}')
         
         dia += 1
         aula += 1
         
-        ajuste_centralizar(mode=1)
+        ajuste_centralizar(mode=1)        
         
 
 if __name__ == '__main__':

@@ -2,7 +2,15 @@
 Esse programa foi pensado para fazer primeiramente automações básicas
 para o Excel, já que eu fazia muitas coisas usando ele
 O programa vai basicamente copiar coisas que são muito usadas para as células do Excel
+
+O que foi mudado nesta versão:
+    - Adicionado opção para sair;
+    - Corrigido escrita do conhecimento que não escrevia caracteres utf-8;
+    - Melhorada a função de data/aula;
+    - Refatorado código de funções e corrigido alguns bugs.
 """
+# coding: utf-8
+
 import funcoes as func
 import time as t
 import json
@@ -11,11 +19,11 @@ from pathlib import Path
 
 DIRECTORY = Path(__file__).parent
 conhecimento = {
-    1: 'O Eu, O Outro e O Nos',
-    2: 'Escuta, fala, pensamento e imaginacao',
+    1: 'O Eu, O Outro e O Nós',
+    2: 'Escuta, fala, pensamento e imaginação',
     3: 'Corpo, gestos e movimentos',
     4: 'Traços, sons, cores e formas',
-    5: 'Espacos, tempos, quantidades, relações e tranformacoes',
+    5: 'Espaços, tempos, quantidades, relações e tranformações',
 }
 objetivos = DIRECTORY / 'objectives.json'
 
@@ -26,8 +34,12 @@ with open(objetivos) as file:
     while True:
         try:
             print('\nDigite qual função você deseja executar:')
-            escolha = input(f'\t1- Colar conhecimento;\n\t2- Colar objetivos;\n\t'
-                            f'3- Colocar asteríscos;\n\t4- Colocar data e aula.\n\t->')
+            escolha = input(f'\t1- Colar conhecimento;'
+                            f'\n\t2- Colar objetivos;'
+                            f'\n\t3- Colocar asteríscos;'
+                            f'\n\t4- Colocar data e aula.'
+                            f'\n\t5- Sair' 
+                            f'\n\t-> ')
             
             # Opção para colar os conhecimentos
             if escolha == '1':
@@ -61,6 +73,11 @@ with open(objetivos) as file:
                 aula = int(input('Digite a aula: '))
                 quantidade = int(input('Digite a quantidade de repetições: '))
                 func.data(dia, mes, aula, quantidade)
+            
+            # Sair do programa
+            elif escolha == '5':
+                break
+            
         except:
             print('Você precisa digitar uma opção válida.')
             t.sleep(1)
